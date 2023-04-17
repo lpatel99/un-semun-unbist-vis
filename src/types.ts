@@ -1,11 +1,17 @@
 export interface NodeData {
   key: string;
-  label: string;
-  tag: string;
-  URL: string;
-  cluster: string;
   x: number;
   y: number;
+  cluster: string;
+  url: string;
+  node_type: string;
+  tag: string;
+  label: string;
+  label_ar: string;
+  label_es: string;
+  label_fr: string;
+  label_ru: string;
+  label_zh: string;
 }
 
 export interface Cluster {

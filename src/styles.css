@@ -24,17 +24,20 @@
  * ************
  */
 body {
-  font-family: "Public Sans", sans-serif;
+  font-family: Helvetica Neue, sans-serif;
+  font-weight: normal;
   background: white;
   font-size: 0.9em;
   overflow: hidden;
 }
 h1,
 h2 {
-  font-family: Lora, serif;
+  font-family: Helvetica Neue, sans-serif;
+  font-weight: 300;
 }
 h2 {
   font-size: 1.3em;
+  font-weight: 200;
   margin: 0;
 }
 h2 > * {
@@ -148,7 +151,7 @@ button.btn {
   border-radius: var(--border-radius);
   padding: 0.3em 0.5em;
   font-size: 1em;
-  font-family: Lato, sans-serif;
+  font-family: Helvetica Neue, sans-serif;
   cursor: pointer;
 }
 button.btn:hover {
@@ -279,7 +282,8 @@ ul > li {
   border-radius: var(--border-radius);
   margin-bottom: 0.5em;
   padding: 1em 1em 1em 3em;
-  font-family: Lato, sans-serif;
+  font-family: Helvetica Neue, sans-serif;
+
   font-size: 1em;
 }
 .search-wrapper > .icon {

@@ -38,7 +38,7 @@ export function drawHover(context: CanvasRenderingContext2D, data: PlainObject, 
   const subLabelSize = size - 2;
 
   const label = data.label;
-  const subLabel = data.tag !== "unknown" ? data.tag : "";
+  const subLabel = data.key !== "unknown" ? data.key : "";
   const clusterLabel = data.clusterLabel;
 
   // Then we draw the label background

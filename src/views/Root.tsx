@@ -5,9 +5,7 @@ import {
   FullScreenControl
 } from '@react-sigma/core'
 import { omit, mapValues, keyBy, constant } from 'lodash'
-
 import getNodeProgramImage from 'sigma/rendering/webgl/programs/node.image'
-
 import GraphSettingsController from './GraphSettingsController'
 import GraphEventsController from './GraphEventsController'
 import GraphDataController from './GraphDataController'
@@ -18,9 +16,7 @@ import SearchField from './SearchField'
 import drawLabel from '../canvas-utils'
 import GraphTitle from './GraphTitle'
 import TagsPanel from './TagsPanel'
-
 import '@react-sigma/core/lib/react-sigma.min.css'
-
 import { GrClose } from 'react-icons/gr'
 import { BiBookContent } from 'react-icons/bi'
 
@@ -32,11 +28,12 @@ const Root: FC = () => {
     clusters: {},
     tags: {}
   })
+  // const { positions, assign } = useLayoutForceAtlas2()
   const [hoveredNode, setHoveredNode] = useState<string | null>(null)
 
   // Load data on mount:
   useEffect(() => {
-    fetch(`${process.env.PUBLIC_URL}/dataset.json`)
+    fetch(`${process.env.PUBLIC_URL}/un_dataset.json`)
       .then(res => res.json())
       .then((dataset: Dataset) => {
         setDataset(dataset)
@@ -59,9 +56,9 @@ const Root: FC = () => {
           defaultNodeType: 'image',
           defaultEdgeType: 'arrow',
           labelDensity: 0.07,
-          labelGridCellSize: 60,
-          labelRenderedSizeThreshold: 15,
-          labelFont: 'Lato, sans-serif',
+          labelGridCellSize: 100,
+          labelRenderedSizeThreshold: 10,
+          labelFont: 'Helvetica Neue, sans-serif',
           zIndex: true
         }}
         className='react-sigma'

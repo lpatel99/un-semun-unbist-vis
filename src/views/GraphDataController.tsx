@@ -1,7 +1,7 @@
 import { useSigma } from '@react-sigma/core'
 import { FC, useEffect, ReactNode } from 'react'
 import { keyBy, omit } from 'lodash'
-
+import forceAtlas2 from 'graphology-layout-forceatlas2'
 import { Dataset, FiltersState } from '../types'
 
 const GraphDataController: FC<{
@@ -19,37 +19,54 @@ const GraphDataController: FC<{
     if (!graph || !dataset) return
 
     const clusters = keyBy(dataset.clusters, 'key')
-    const tags = keyBy(dataset.tags, 'key')
 
-    dataset.nodes.forEach(node =>
+    dataset.nodes.forEach(node => {
+      // if (node.node_type !== 'subtopic')
       graph.addNode(node.key, {
         ...node,
-        ...omit(clusters[node.cluster], 'key'),
-        image: `${process.env.PUBLIC_URL}/images/${tags[node.tag].image}`
+        ...omit(clusters[node.cluster], 'key')
       })
-    )
-    dataset.edges.forEach(([source, target]) =>
-      graph.addEdge(source, target, { size: 1 })
-    )
+    })
+    dataset.edges.forEach(([source, target]) => {
+      // Check if source and targets share the same two first characters
+      // (i.e. if they are from the same cluster):
+      if (graph.hasNode(source) && graph.hasNode(target)) {
+        graph.addEdge(source, target, { size: 1 })
+      }
+    })
 
     // Use degrees as node sizes:
-    const scores = graph
-      .nodes()
-      .map(node => graph.getNodeAttribute(node, 'score'))
-    const minDegree = Math.min(...scores)
-    const maxDegree = Math.max(...scores)
-    const MIN_NODE_SIZE = 3
-    const MAX_NODE_SIZE = 30
-    graph.forEachNode(node =>
-      graph.setNodeAttribute(
-        node,
-        'size',
-        ((graph.getNodeAttribute(node, 'score') - minDegree) /
-          (maxDegree - minDegree)) *
-          (MAX_NODE_SIZE - MIN_NODE_SIZE) +
-          MIN_NODE_SIZE
-      )
-    )
+    const METATOPIC_NODE_SIZE = 20
+    const TOPIC_NODE_SIZE = 5
+    const SUBTOPIC_NODE_SIZE = 2
+
+    graph.forEachNode(node => {
+      var size = 0
+      switch (graph.getNodeAttribute(node, 'node_type')) {
+        case 'meta_topic':
+          size = METATOPIC_NODE_SIZE
+          break
+        case 'topic':
+          size = TOPIC_NODE_SIZE
+          break
+        case 'subtopic':
+          size = SUBTOPIC_NODE_SIZE
+          break
+
+        default:
+          size = 2
+          break
+      }
+      graph.setNodeAttribute(node, 'size', size)
+    })
+
+    forceAtlas2.assign(graph, {
+      iterations: 50,
+      settings: {
+        gravity: 10,
+        barnesHutOptimize: true
+      }
+    })
 
     return () => graph.clear()
   }, [graph, dataset])
