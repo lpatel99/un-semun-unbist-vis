@@ -61,7 +61,7 @@ const GraphDataController: FC<{
     })
 
     forceAtlas2.assign(graph, {
-      iterations: 50,
+      iterations: 80,
       settings: {
         gravity: 10,
         barnesHutOptimize: true
