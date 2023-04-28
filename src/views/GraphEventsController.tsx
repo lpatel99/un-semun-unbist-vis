@@ -1,5 +1,6 @@
 import { useRegisterEvents, useSigma } from '@react-sigma/core'
 import { FC, useEffect, ReactNode } from 'react'
+import { FiltersState } from '../types'
 
 function getMouseLayer () {
   return document.querySelector('.sigma-mouse')
@@ -7,8 +8,9 @@ function getMouseLayer () {
 
 const GraphEventsController: FC<{
   setHoveredNode: (node: string | null) => void
+  filters: FiltersState
   children?: ReactNode
-}> = ({ setHoveredNode, children }) => {
+}> = ({ setHoveredNode, filters, children }) => {
   const sigma = useSigma()
   const graph = sigma.getGraph()
   const registerEvents = useRegisterEvents()
@@ -21,7 +23,10 @@ const GraphEventsController: FC<{
     registerEvents({
       clickNode ({ node }) {
         if (!graph.getNodeAttribute(node, 'hidden')) {
-          window.open(graph.getNodeAttribute(node, 'url'), '_blank')
+          window.open(
+            graph.getNodeAttribute(node, 'url') + `?lang=${filters.language}`,
+            '_blank'
+          )
         }
       },
       enterNode ({ node }) {
@@ -37,7 +42,7 @@ const GraphEventsController: FC<{
         if (mouseLayer) mouseLayer.classList.remove('mouse-pointer')
       }
     })
-  }, [])
+  }, [filters.language])
 
   return <>{children}</>
 }

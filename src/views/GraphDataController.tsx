@@ -59,7 +59,7 @@ const GraphDataController: FC<{
     })
 
     forceAtlas2.assign(graph, {
-      iterations: 80,
+      iterations: 100,
       settings: {
         gravity: 10,
         barnesHutOptimize: true
@@ -74,7 +74,7 @@ const GraphDataController: FC<{
    */
   useEffect(() => {
     const { clusters } = filters
-    graph.forEachNode((node, { cluster, tag }) =>
+    graph.forEachNode((node, { cluster }) =>
       graph.setNodeAttribute(node, 'hidden', !clusters[cluster])
     )
   }, [graph, filters])
@@ -112,7 +112,7 @@ const GraphDataController: FC<{
         graph.getNodeAttribute(node, language_field)
       )
     )
-  }, [graph, filters])
+  }, [graph, filters.language])
 
   return <>{children}</>
 }
