@@ -10,9 +10,10 @@ import Panel from './Panel'
 const ClustersPanel: FC<{
   clusters: Cluster[]
   filters: FiltersState
+  initiallyDeployed: boolean
   toggleCluster: (cluster: string) => void
   setClusters: (clusters: Record<string, boolean>) => void
-}> = ({ clusters, filters, toggleCluster, setClusters }) => {
+}> = ({ clusters, filters, initiallyDeployed, toggleCluster, setClusters }) => {
   const sigma = useSigma()
   const graph = sigma.getGraph()
 
@@ -56,6 +57,7 @@ const ClustersPanel: FC<{
 
   return (
     <Panel
+      initiallyDeployed={initiallyDeployed}
       title={
         <>
           <MdGroupWork className='text-muted' /> Clusters

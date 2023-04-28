@@ -3,6 +3,7 @@ import { FC, useEffect, ReactNode } from 'react'
 import { keyBy, omit } from 'lodash'
 import forceAtlas2 from 'graphology-layout-forceatlas2'
 import { Dataset, FiltersState } from '../types'
+import { languages } from '../consts'
 
 const GraphDataController: FC<{
   dataset: Dataset
@@ -19,9 +20,11 @@ const GraphDataController: FC<{
     if (!graph || !dataset) return
 
     const clusters = keyBy(dataset.clusters, 'key')
+    const langs = keyBy(languages, 'key')
 
     dataset.nodes.forEach(node => {
       // if (node.node_type !== 'subtopic')
+      console.log(node)
       graph.addNode(node.key, {
         ...node,
         ...omit(clusters[node.cluster], 'key')
@@ -75,9 +78,9 @@ const GraphDataController: FC<{
    * Apply filters to graphology:
    */
   useEffect(() => {
-    const { clusters, tags } = filters
+    const { clusters } = filters
     graph.forEachNode((node, { cluster, tag }) =>
-      graph.setNodeAttribute(node, 'hidden', !clusters[cluster] || !tags[tag])
+      graph.setNodeAttribute(node, 'hidden', !clusters[cluster])
     )
   }, [graph, filters])
 

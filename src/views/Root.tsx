@@ -15,10 +15,10 @@ import ClustersPanel from './ClustersPanel'
 import SearchField from './SearchField'
 import drawLabel from '../canvas-utils'
 import GraphTitle from './GraphTitle'
-import TagsPanel from './TagsPanel'
 import '@react-sigma/core/lib/react-sigma.min.css'
 import { GrClose } from 'react-icons/gr'
 import { BiBookContent } from 'react-icons/bi'
+import LanguagesPanel from './LanguagesPanel'
 
 const Root: FC = () => {
   const [showContents, setShowContents] = useState(false)
@@ -26,7 +26,7 @@ const Root: FC = () => {
   const [dataset, setDataset] = useState<Dataset | null>(null)
   const [filtersState, setFiltersState] = useState<FiltersState>({
     clusters: {},
-    tags: {}
+    language: 'en'
   })
   // const { positions, assign } = useLayoutForceAtlas2()
   const [hoveredNode, setHoveredNode] = useState<string | null>(null)
@@ -39,7 +39,7 @@ const Root: FC = () => {
         setDataset(dataset)
         setFiltersState({
           clusters: mapValues(keyBy(dataset.clusters, 'key'), constant(true)),
-          tags: mapValues(keyBy(dataset.tags, 'key'), constant(true))
+          language: 'en'
         })
         requestAnimationFrame(() => setDataReady(true))
       })
@@ -101,6 +101,7 @@ const Root: FC = () => {
                 <ClustersPanel
                   clusters={dataset.clusters}
                   filters={filtersState}
+                  initiallyDeployed={true}
                   setClusters={clusters =>
                     setFiltersState(filters => ({
                       ...filters,
@@ -116,21 +117,15 @@ const Root: FC = () => {
                     }))
                   }}
                 />
-                <TagsPanel
-                  tags={dataset.tags}
+                <LanguagesPanel
                   filters={filtersState}
-                  setTags={tags =>
-                    setFiltersState(filters => ({
-                      ...filters,
-                      tags
-                    }))
+                  setLanguage={language =>
+                    setFiltersState(filters => ({ ...filters, language }))
                   }
-                  toggleTag={tag => {
+                  toggleLanguage={language => {
                     setFiltersState(filters => ({
                       ...filters,
-                      tags: filters.tags[tag]
-                        ? omit(filters.tags, tag)
-                        : { ...filters.tags, [tag]: true }
+                      language: language
                     }))
                   }}
                 />

@@ -70,8 +70,14 @@ body {
 }
 .controls {
   position: absolute;
-  bottom: var(--stage-padding);
+  bottom: 40px;
   left: var(--stage-padding);
+  vertical-align: auto;
+  /* Space evenly elements in control vertically*/
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 220px;
 }
 .graph-title {
   z-index: 1;
@@ -250,6 +256,12 @@ ul > li {
 }
 .caption-row label .node-label {
   flex-grow: 1;
+}
+.caption-row label .node-label-2 {
+  flex-grow: 2;
+  align-items: center;
+  padding-left: 10px;
+  padding-bottom: 10px;
 }
 .caption-row label .bar {
   position: relative;

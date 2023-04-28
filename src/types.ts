@@ -29,10 +29,10 @@ export interface Dataset {
   nodes: NodeData[];
   edges: [string, string][];
   clusters: Cluster[];
-  tags: Tag[];
 }
 
 export interface FiltersState {
   clusters: Record<string, boolean>;
-  tags: Record<string, boolean>;
+  language: string;
 }
+
