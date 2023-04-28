@@ -27,7 +27,8 @@ const GraphSettingsController: FC<{
       drawHover(
         context,
         { ...sigma.getNodeDisplayData(data.key), ...data },
-        settings
+        settings,
+        data.label!
       )
     )
   }, [sigma, graph])

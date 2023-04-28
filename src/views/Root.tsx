@@ -119,9 +119,6 @@ const Root: FC = () => {
                 />
                 <LanguagesPanel
                   filters={filtersState}
-                  setLanguage={language =>
-                    setFiltersState(filters => ({ ...filters, language }))
-                  }
                   toggleLanguage={language => {
                     setFiltersState(filters => ({
                       ...filters,

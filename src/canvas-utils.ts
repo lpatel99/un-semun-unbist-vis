@@ -31,7 +31,7 @@ export function drawRoundRect(
 /**
  * Custom hover renderer
  */
-export function drawHover(context: CanvasRenderingContext2D, data: PlainObject, settings: PlainObject) {
+export function drawHover(context: CanvasRenderingContext2D, data: PlainObject, settings: PlainObject, clusterLabel: string): void {
   const size = settings.labelSize;
   const font = settings.labelFont;
   const weight = settings.labelWeight;
@@ -39,7 +39,6 @@ export function drawHover(context: CanvasRenderingContext2D, data: PlainObject, 
 
   const label = data.label;
   const subLabel = data.key !== "unknown" ? data.key : "";
-  const clusterLabel = data.clusterLabel;
 
   // Then we draw the label background
   context.beginPath();

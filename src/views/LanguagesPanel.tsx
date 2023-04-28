@@ -1,7 +1,5 @@
-import React, { FC, useEffect, useMemo, useState } from 'react'
-import { useSigma } from '@react-sigma/core'
+import { FC } from 'react'
 import { MdLanguage } from 'react-icons/md'
-
 import { FiltersState } from '../types'
 import { languages } from '../consts'
 import Panel from './Panel'
@@ -9,26 +7,7 @@ import Panel from './Panel'
 const LanguagesPanel: FC<{
   filters: FiltersState
   toggleLanguage: (language: string) => void
-  setLanguage: (language: string) => void
-}> = ({ filters, toggleLanguage, setLanguage }) => {
-  const sigma = useSigma()
-  const graph = sigma.getGraph()
-
-  const [activeLanguage, setActiveLanguage] = useState<string>('en')
-  // useEffect(() => {
-  //   // To ensure the graphology instance has up to data "hidden" values for
-  //   // nodes, we wait for next frame before reindexing. This won't matter in the
-  //   // UX, because of the visible nodes bar width transition.
-  //   requestAnimationFrame(() => {
-  //     const index: Record<string, number> = {}
-  //     graph.forEachNode(
-  //       (_, { lang, hidden }) =>
-  //         !hidden && (index[lang] = (index[lang] || 0) + 1)
-  //     )
-  //     setVisibleNodesPerCluster(index)
-  //   })
-  // }, [filters])
-
+}> = ({ filters, toggleLanguage }) => {
   return (
     <Panel
       title={

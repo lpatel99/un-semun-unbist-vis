@@ -94,6 +94,32 @@ const ClustersPanel: FC<{
         {sortedClusters.map(cluster => {
           const nodesCount = nodesPerCluster[cluster.key]
           const visibleNodesCount = visibleNodesPerCluster[cluster.key] || 0
+          var label = ''
+
+          switch (filters.language) {
+            case 'en':
+              label = cluster.label_en
+              break
+            case 'ar':
+              label = cluster.label_ar
+              break
+            case 'es':
+              label = cluster.label_es
+              break
+            case 'fr':
+              label = cluster.label_fr
+              break
+            case 'ru':
+              label = cluster.label_ru
+              break
+            case 'zh':
+              label = cluster.label_zh
+              break
+            default:
+              label = cluster.label_en
+              break
+          }
+
           return (
             <li
               className='caption-row'
@@ -119,7 +145,7 @@ const ClustersPanel: FC<{
                   }}
                 />{' '}
                 <div className='node-label'>
-                  <span>{cluster.clusterLabel}</span>
+                  <span>{label}</span>
                   <div
                     className='bar'
                     style={{

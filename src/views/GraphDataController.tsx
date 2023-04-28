@@ -3,7 +3,6 @@ import { FC, useEffect, ReactNode } from 'react'
 import { keyBy, omit } from 'lodash'
 import forceAtlas2 from 'graphology-layout-forceatlas2'
 import { Dataset, FiltersState } from '../types'
-import { languages } from '../consts'
 
 const GraphDataController: FC<{
   dataset: Dataset
@@ -20,10 +19,8 @@ const GraphDataController: FC<{
     if (!graph || !dataset) return
 
     const clusters = keyBy(dataset.clusters, 'key')
-    const langs = keyBy(languages, 'key')
 
     dataset.nodes.forEach(node => {
-      // if (node.node_type !== 'subtopic')
       console.log(node)
       graph.addNode(node.key, {
         ...node,
@@ -31,8 +28,6 @@ const GraphDataController: FC<{
       })
     })
     dataset.edges.forEach(([source, target]) => {
-      // Check if source and targets share the same two first characters
-      // (i.e. if they are from the same cluster):
       if (graph.hasNode(source) && graph.hasNode(target)) {
         graph.addEdge(source, target, { size: 1 })
       }
@@ -81,6 +76,41 @@ const GraphDataController: FC<{
     const { clusters } = filters
     graph.forEachNode((node, { cluster, tag }) =>
       graph.setNodeAttribute(node, 'hidden', !clusters[cluster])
+    )
+  }, [graph, filters])
+
+  useEffect(() => {
+    var language_field = ''
+    switch (filters.language) {
+      case 'en':
+        language_field = 'label_en'
+        break
+      case 'fr':
+        language_field = 'label_fr'
+        break
+      case 'es':
+        language_field = 'label_es'
+        break
+      case 'ar':
+        language_field = 'label_ar'
+        break
+      case 'ru':
+        language_field = 'label_ru'
+        break
+      case 'zh':
+        language_field = 'label_zh'
+        break
+      default:
+        language_field = 'label_en'
+        break
+    }
+
+    graph.forEachNode(node =>
+      graph.setNodeAttribute(
+        node,
+        'label',
+        graph.getNodeAttribute(node, language_field)
+      )
     )
   }, [graph, filters])
 
