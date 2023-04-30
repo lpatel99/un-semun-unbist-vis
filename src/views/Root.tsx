@@ -62,13 +62,17 @@ const Root: FC = () => {
           defaultEdgeType: 'line',
           labelDensity: 0.07,
           labelGridCellSize: 100,
-          labelRenderedSizeThreshold: 10,
+          labelRenderedSizeThreshold: 6,
           labelFont: 'Helvetica Neue, sans-serif',
           zIndex: true
         }}
         className='react-sigma'
       >
-        <GraphSettingsController hoveredNode={hoveredNode} />
+        <GraphSettingsController
+          hoveredNode={hoveredNode}
+          dataset={dataset}
+          filters={filtersState}
+        />
         <GraphEventsController
           setHoveredNode={setHoveredNode}
           filters={filtersState}

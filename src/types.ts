@@ -23,6 +23,7 @@ export interface Cluster {
   cluster_label_fr: string;
   cluster_label_ru: string;
   cluster_label_zh: string;
+  [key: string]: string;
 }
 
 export interface Tag {

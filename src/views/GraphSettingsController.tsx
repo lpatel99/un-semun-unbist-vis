@@ -3,6 +3,7 @@ import { FC, useEffect, ReactNode } from 'react'
 
 import { drawHover } from '../canvas-utils'
 import useDebounce from '../use-debounce'
+import { Dataset, FiltersState } from '../types'
 
 const NODE_FADE_COLOR = '#bbb'
 const EDGE_FADE_COLOR = '#eee'
@@ -10,7 +11,9 @@ const EDGE_FADE_COLOR = '#eee'
 const GraphSettingsController: FC<{
   hoveredNode: string | null
   children?: ReactNode
-}> = ({ children, hoveredNode }) => {
+  filters: FiltersState
+  dataset: Dataset
+}> = ({ children, hoveredNode, filters, dataset }) => {
   const sigma = useSigma()
   const graph = sigma.getGraph()
 
@@ -29,15 +32,23 @@ const GraphSettingsController: FC<{
       // get node by data.key
       // const node = graph.get
       console.log('Hovered node key: ', data.key)
+      const hoveredNode = dataset.nodes.find(node => node.key === data.key)!
+      const cluster = dataset.clusters.find(
+        cluster => cluster.key === hoveredNode.cluster
+      )!
+
+      const field = `cluster_label_${filters.language}`
+      const clusterLabel = cluster[field] || cluster.cluster_label_en
+
       return drawHover(
         context,
         { ...sigma.getNodeDisplayData(data.key), ...data },
         settings,
-        data.key
-        // get the hovered node from the sigma instance:
+        clusterLabel
       )
+      // get the hovered node from the Dataset object:
     })
-  }, [sigma, graph])
+  }, [sigma, graph, filters.language])
 
   /**
    * Update node and edge reducers when a node is hovered, to highlight its
