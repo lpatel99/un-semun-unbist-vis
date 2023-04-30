@@ -58,6 +58,15 @@ body {
   margin: 0;
   padding: 0;
 }
+
+/* Center content for element id 'error-page'*/
+#error-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 #root {
   width: 100vw;
   height: 100vh;
