@@ -6,6 +6,12 @@ import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai'
 
 import { Cluster, FiltersState } from '../types'
 import Panel from './Panel'
+import {
+  checkAllIntl,
+  clusterInstructionIntl,
+  clusterIntl as clustersIntl,
+  uncheckAllIntl
+} from '../consts'
 
 const ClustersPanel: FC<{
   clusters: Cluster[]
@@ -60,7 +66,8 @@ const ClustersPanel: FC<{
       initiallyDeployed={initiallyDeployed}
       title={
         <>
-          <MdGroupWork className='text-muted' /> Clusters
+          <MdGroupWork className='text-muted' />{' '}
+          {clustersIntl[filters.language]}
           {visibleClustersCount < clusters.length ? (
             <span className='text-muted text-small'>
               {' '}
@@ -73,9 +80,7 @@ const ClustersPanel: FC<{
       }
     >
       <p>
-        <i className='text-muted'>
-          Click a cluster to show/hide related pages from the network.
-        </i>
+        <i className='text-muted'>{clusterInstructionIntl[filters.language]}</i>
       </p>
       <p className='buttons'>
         <button
@@ -84,10 +89,10 @@ const ClustersPanel: FC<{
             setClusters(mapValues(keyBy(clusters, 'key'), () => true))
           }
         >
-          <AiOutlineCheckCircle /> Check all
+          <AiOutlineCheckCircle /> {checkAllIntl[filters.language]}
         </button>{' '}
         <button className='btn' onClick={() => setClusters({})}>
-          <AiOutlineCloseCircle /> Uncheck all
+          <AiOutlineCloseCircle /> {uncheckAllIntl[filters.language]}
         </button>
       </p>
       <ul>
@@ -98,25 +103,25 @@ const ClustersPanel: FC<{
 
           switch (filters.language) {
             case 'en':
-              label = cluster.label_en
+              label = cluster.cluster_label_en
               break
             case 'ar':
-              label = cluster.label_ar
+              label = cluster.cluster_label_ar
               break
             case 'es':
-              label = cluster.label_es
+              label = cluster.cluster_label_es
               break
             case 'fr':
-              label = cluster.label_fr
+              label = cluster.cluster_label_fr
               break
             case 'ru':
-              label = cluster.label_ru
+              label = cluster.cluster_label_ru
               break
             case 'zh':
-              label = cluster.label_zh
+              label = cluster.cluster_label_zh
               break
             default:
-              label = cluster.label_en
+              label = cluster.cluster_label_en
               break
           }
 

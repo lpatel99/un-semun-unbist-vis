@@ -17,12 +17,12 @@ export interface NodeData {
 export interface Cluster {
   key: string;
   color: string;
-  label_en: string;
-  label_ar: string;
-  label_es: string;
-  label_fr: string;
-  label_ru: string;
-  label_zh: string;
+  cluster_label_en: string;
+  cluster_label_ar: string;
+  cluster_label_es: string;
+  cluster_label_fr: string;
+  cluster_label_ru: string;
+  cluster_label_zh: string;
 }
 
 export interface Tag {

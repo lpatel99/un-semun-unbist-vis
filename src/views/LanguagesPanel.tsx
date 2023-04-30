@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { MdLanguage } from 'react-icons/md'
 import { FiltersState } from '../types'
-import { languages } from '../consts'
+import { languageInstructionIntl, languageIntl, languages } from '../consts'
 import Panel from './Panel'
 
 const LanguagesPanel: FC<{
@@ -12,13 +12,13 @@ const LanguagesPanel: FC<{
     <Panel
       title={
         <>
-          <MdLanguage className='text-muted' /> Languages
+          <MdLanguage className='text-muted' /> {languageIntl[filters.language]}
         </>
       }
     >
       <p>
         <i className='text-muted'>
-          Click a language to update the displayed language.
+          {languageInstructionIntl[filters.language]}
         </i>
       </p>
       <p className='buttons'></p>

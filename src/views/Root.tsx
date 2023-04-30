@@ -54,7 +54,7 @@ const Root: FC = () => {
           nodeProgramClasses: { image: getNodeProgramImage() },
           labelRenderer: drawLabel,
           defaultNodeType: 'image',
-          defaultEdgeType: 'arrow',
+          defaultEdgeType: 'line',
           labelDensity: 0.07,
           labelGridCellSize: 100,
           labelRenderedSizeThreshold: 10,
@@ -100,7 +100,7 @@ const Root: FC = () => {
               <GraphTitle filters={filtersState} />
               <div className='panels'>
                 <SearchField filters={filtersState} />
-                <DescriptionPanel />
+                <DescriptionPanel filters={filtersState} />
                 <ClustersPanel
                   clusters={dataset.clusters}
                   filters={filtersState}

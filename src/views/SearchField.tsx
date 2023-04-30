@@ -10,6 +10,7 @@ import { Attributes } from 'graphology-types'
 import { BsSearch } from 'react-icons/bs'
 
 import { FiltersState } from '../types'
+import { searchInstructionIntl } from '../consts'
 
 /**
  * This component is basically a fork from React-sigma-v2's SearchControl
@@ -93,7 +94,7 @@ const SearchField: FC<{ filters: FiltersState }> = ({ filters }) => {
     <div className='search-wrapper'>
       <input
         type='search'
-        placeholder='Search in nodes...'
+        placeholder={searchInstructionIntl[filters.language]}
         list='nodes'
         value={search}
         onChange={onInputChange}

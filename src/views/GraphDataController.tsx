@@ -21,7 +21,6 @@ const GraphDataController: FC<{
     const clusters = keyBy(dataset.clusters, 'key')
 
     dataset.nodes.forEach(node => {
-      console.log(node)
       graph.addNode(node.key, {
         ...node,
         ...omit(clusters[node.cluster], 'key')
@@ -105,13 +104,13 @@ const GraphDataController: FC<{
         break
     }
 
-    graph.forEachNode(node =>
-      graph.setNodeAttribute(
+    graph.forEachNode(node => {
+      return graph.setNodeAttribute(
         node,
         'label',
         graph.getNodeAttribute(node, language_field)
       )
-    )
+    })
   }, [graph, filters.language])
 
   return <>{children}</>

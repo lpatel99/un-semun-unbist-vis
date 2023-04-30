@@ -14,6 +14,8 @@ const GraphSettingsController: FC<{
   const sigma = useSigma()
   const graph = sigma.getGraph()
 
+  console.log(typeof graph)
+
   // Here we debounce the value to avoid having too much highlights refresh when
   // moving the mouse over the graph:
   const debouncedHoveredNode = useDebounce(hoveredNode, 40)
@@ -23,14 +25,18 @@ const GraphSettingsController: FC<{
    * instance:
    */
   useEffect(() => {
-    sigma.setSetting('hoverRenderer', (context, data, settings) =>
-      drawHover(
+    sigma.setSetting('hoverRenderer', (context, data, settings) => {
+      // get node by data.key
+      // const node = graph.get
+      console.log('Hovered node key: ', data.key)
+      return drawHover(
         context,
         { ...sigma.getNodeDisplayData(data.key), ...data },
         settings,
-        data.label!
+        data.key
+        // get the hovered node from the sigma instance:
       )
-    )
+    })
   }, [sigma, graph])
 
   /**

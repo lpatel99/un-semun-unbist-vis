@@ -1,15 +1,20 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { BsInfoCircle } from 'react-icons/bs'
 
 import Panel from './Panel'
+import { FiltersState } from '../types'
+import { descriptionIntl } from '../consts'
 
-const DescriptionPanel: FC = () => {
+const DescriptionPanel: FC<{
+  filters: FiltersState
+}> = ({ filters }) => {
   return (
     <Panel
       initiallyDeployed
       title={
         <>
-          <BsInfoCircle className='text-muted' /> Description
+          <BsInfoCircle className='text-muted' />{' '}
+          {descriptionIntl[filters.language]}
         </>
       }
     >
