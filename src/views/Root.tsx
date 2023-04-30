@@ -30,6 +30,10 @@ const Root: FC = () => {
   })
   // const { positions, assign } = useLayoutForceAtlas2()
   const [hoveredNode, setHoveredNode] = useState<string | null>(null)
+  const params = new URLSearchParams(window.location.toString())
+  console.log('path: ', window.location.toString())
+
+  console.log('Params: ', params.get('lang'))
 
   // Load data on mount:
   useEffect(() => {
@@ -37,6 +41,7 @@ const Root: FC = () => {
       .then(res => res.json())
       .then((dataset: Dataset) => {
         setDataset(dataset)
+
         setFiltersState({
           clusters: mapValues(keyBy(dataset.clusters, 'key'), constant(true)),
           language: 'en'
