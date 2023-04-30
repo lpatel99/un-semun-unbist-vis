@@ -9,7 +9,7 @@ export default function ErrorPage () {
       <h1>Oops!</h1>
       <p>Sorry, this page doesn't exist.</p>
       <p>
-        <i>{error.statusText || error.message}</i>
+        <i>{error ? error.statusText || error.message : 'Page not found.'}</i>
       </p>
     </div>
   )

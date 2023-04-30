@@ -1,7 +1,11 @@
 import { FC } from 'react'
 import { MdLanguage } from 'react-icons/md'
 import { FiltersState } from '../types'
-import { languageInstructionIntl, languageIntl, languages } from '../consts'
+import {
+  languageInstructionIntl,
+  languageIntl,
+  languagesMapping
+} from '../consts'
 import Panel from './Panel'
 
 const LanguagesPanel: FC<{
@@ -23,7 +27,7 @@ const LanguagesPanel: FC<{
       </p>
       <p className='buttons'></p>
       <ul>
-        {languages.map(lang => {
+        {languagesMapping.map(lang => {
           return (
             <li className='caption-row' key={lang.key} title={lang['label']}>
               <input

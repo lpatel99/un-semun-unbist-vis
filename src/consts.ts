@@ -1,5 +1,8 @@
 // Declare a list of langauge
-export const languages = [
+
+export const languages = ["en", "ar", "es", "fr", "ru", "zh"];
+
+export const languagesMapping = [
     { key: "en", label: "English" },
     { key: "ar", label: "العربية" },
     { key: "es", label: "Español" },

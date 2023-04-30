@@ -19,21 +19,27 @@ import '@react-sigma/core/lib/react-sigma.min.css'
 import { GrClose } from 'react-icons/gr'
 import { BiBookContent } from 'react-icons/bi'
 import LanguagesPanel from './LanguagesPanel'
+import { useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Root: FC = () => {
+  var params = useParams()
+  const navigate = useNavigate()
+  console.log('params: ', params)
+
+  if (!params.lang) {
+    navigate('/en')
+  }
+
   const [showContents, setShowContents] = useState(false)
   const [dataReady, setDataReady] = useState(false)
   const [dataset, setDataset] = useState<Dataset | null>(null)
   const [filtersState, setFiltersState] = useState<FiltersState>({
     clusters: {},
-    language: 'en'
+    language: params.lang || 'en'
   })
   // const { positions, assign } = useLayoutForceAtlas2()
   const [hoveredNode, setHoveredNode] = useState<string | null>(null)
-  const params = new URLSearchParams(window.location.toString())
-  console.log('path: ', window.location.toString())
-
-  console.log('Params: ', params.get('lang'))
 
   // Load data on mount:
   useEffect(() => {
@@ -44,7 +50,7 @@ const Root: FC = () => {
 
         setFiltersState({
           clusters: mapValues(keyBy(dataset.clusters, 'key'), constant(true)),
-          language: 'en'
+          language: params.lang!
         })
         requestAnimationFrame(() => setDataReady(true))
       })
@@ -136,6 +142,7 @@ const Root: FC = () => {
                       ...filters,
                       language: language
                     }))
+                    navigate(`/${language}`)
                   }}
                 />
               </div>
