@@ -72,6 +72,21 @@ body {
   height: 100vh;
   position: relative;
 }
+#loading {
+  /*Center text and contents*/
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /*Make text unselectable*/
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /*Make text color as UN logo*/
+  color: #4b92db;
+}
 #app-root,
 .sigma-container {
   position: absolute;
