@@ -16,7 +16,7 @@ const LanguagesPanel: FC<{
     <Panel
       title={
         <>
-          <MdLanguage className='text-muted' /> {languageIntl[filters.language]}
+          <MdLanguage className='icon' /> {languageIntl[filters.language]}
         </>
       }
     >

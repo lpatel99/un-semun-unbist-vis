@@ -2,7 +2,7 @@ import React, { FC, useEffect, useRef, useState, ReactNode } from 'react'
 import { MdExpandLess, MdExpandMore } from 'react-icons/md'
 import AnimateHeight from 'react-animate-height'
 
-const DURATION = 300
+const DURATION = 200
 
 const Panel: FC<{
   title: JSX.Element | string
@@ -25,9 +25,9 @@ const Panel: FC<{
 
   return (
     <div className='panel' ref={dom}>
-      <h2>
+      <h2 onClick={() => setIsDeployed(v => !v)}>
         {title}{' '}
-        <button type='button' onClick={() => setIsDeployed(v => !v)}>
+        <button type='button'>
           {isDeployed ? <MdExpandLess /> : <MdExpandMore />}
         </button>
       </h2>
