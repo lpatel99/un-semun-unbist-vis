@@ -17,8 +17,6 @@ const GraphSettingsController: FC<{
   const sigma = useSigma()
   const graph = sigma.getGraph()
 
-  console.log(typeof graph)
-
   // Here we debounce the value to avoid having too much highlights refresh when
   // moving the mouse over the graph:
   const debouncedHoveredNode = useDebounce(hoveredNode, 40)
@@ -29,9 +27,6 @@ const GraphSettingsController: FC<{
    */
   useEffect(() => {
     sigma.setSetting('hoverRenderer', (context, data, settings) => {
-      // get node by data.key
-      // const node = graph.get
-      console.log('Hovered node key: ', data.key)
       const hoveredNode = dataset.nodes.find(node => node.key === data.key)!
       const cluster = dataset.clusters.find(
         cluster => cluster.key === hoveredNode.cluster
@@ -46,7 +41,6 @@ const GraphSettingsController: FC<{
         settings,
         clusterLabel
       )
-      // get the hovered node from the Dataset object:
     })
   }, [sigma, graph, filters.language])
 
@@ -82,7 +76,7 @@ const GraphSettingsController: FC<{
       debouncedHoveredNode
         ? (edge, data) =>
             graph.hasExtremity(edge, debouncedHoveredNode)
-              ? { ...data, color: hoveredColor, size: 4 }
+              ? { ...data, color: hoveredColor, size: 1 }
               : { ...data, color: EDGE_FADE_COLOR, hidden: true }
         : null
     )
