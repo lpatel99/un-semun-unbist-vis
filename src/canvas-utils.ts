@@ -44,9 +44,9 @@ export function drawHover(context: CanvasRenderingContext2D, data: PlainObject, 
   context.beginPath();
   context.fillStyle = "#fff";
   context.shadowOffsetX = 0;
-  context.shadowOffsetY = 2;
-  context.shadowBlur = 8;
-  context.shadowColor = "#000";
+  context.shadowOffsetY = 1;
+  context.shadowBlur = 4;
+  context.shadowColor = "#666";
 
   context.font = `${weight} ${size}px ${font}`;
   const labelWidth = context.measureText(label).width;
@@ -64,7 +64,7 @@ export function drawHover(context: CanvasRenderingContext2D, data: PlainObject, 
   const hSubLabel = subLabel ? Math.round(subLabelSize / 2 + 9) : 0;
   const hClusterLabel = Math.round(subLabelSize / 2 + 9);
 
-  drawRoundRect(context, x, y - hSubLabel - 12, w, hClusterLabel + hLabel + hSubLabel + 12, 5);
+  drawRoundRect(context, x, y - hSubLabel - 12, w, hClusterLabel + hLabel + hSubLabel + 12, 10);
   context.closePath();
   context.fill();
 
@@ -98,9 +98,10 @@ export default function drawLabel(
 ): void {
   if (!data.label) return;
 
-  const size = settings.labelSize,
-    font = settings.labelFont,
-    weight = settings.labelWeight;
+  const size = settings.labelSize;
+  const font = settings.labelFont;
+  const weight = settings.labelWeight;
+
 
   context.font = `${weight} ${size}px ${font}`;
   const width = context.measureText(data.label).width + 8;

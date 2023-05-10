@@ -32,6 +32,15 @@ export const searchInstructionIntl: { [key: string]: string } =
     "ru": "Поиск темы по имени",
     "zh": "按名称搜索主题",
 };
+export const loadingIntl: { [key: string]: string } =
+{
+    "en": "Loading...",
+    "ar": "جار التحميل...",
+    "es": "Cargando...",
+    "fr": "Chargement...",
+    "ru": "Загрузка...",
+    "zh": "载入中...",
+};
 
 
 // Clusters

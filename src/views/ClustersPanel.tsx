@@ -43,7 +43,7 @@ const ClustersPanel: FC<{
   const [visibleNodesPerCluster, setVisibleNodesPerCluster] =
     useState<Record<string, number>>(nodesPerCluster)
   useEffect(() => {
-    // To ensure the graphology instance has up to data "hidden" values for
+    // To ensure the graphology instance has sup to data "hidden" values for
     // nodes, we wait for next frame before reindexing. This won't matter in the
     // UX, because of the visible nodes bar width transition.
     requestAnimationFrame(() => {
@@ -66,8 +66,7 @@ const ClustersPanel: FC<{
       initiallyDeployed={initiallyDeployed}
       title={
         <>
-          <MdGroupWork className='text-muted' />{' '}
-          {clustersIntl[filters.language]}
+          <MdGroupWork className='icon' /> {clustersIntl[filters.language]}
           {visibleClustersCount < clusters.length ? (
             <span className='text-muted text-small'>
               {' '}

@@ -7,14 +7,14 @@ import { descriptionIntl } from '../consts'
 
 const DescriptionPanel: FC<{
   filters: FiltersState
-}> = ({ filters }) => {
+  initiallyDeployed: boolean
+}> = ({ filters, initiallyDeployed }) => {
   return (
     <Panel
-      initiallyDeployed
+      initiallyDeployed={initiallyDeployed}
       title={
         <>
-          <BsInfoCircle className='text-muted' />{' '}
-          {descriptionIntl[filters.language]}
+          <BsInfoCircle className='icon' /> {descriptionIntl[filters.language]}
         </>
       }
     >

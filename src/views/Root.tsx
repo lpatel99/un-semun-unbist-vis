@@ -20,6 +20,7 @@ import { GrClose } from 'react-icons/gr'
 import { BiBookContent } from 'react-icons/bi'
 import LanguagesPanel from './LanguagesPanel'
 import { useNavigate } from 'react-router-dom'
+import { loadingIntl } from '../consts'
 
 const Root: FC<{ lang: string }> = ({ lang }) => {
   const navigate = useNavigate()
@@ -49,7 +50,8 @@ const Root: FC<{ lang: string }> = ({ lang }) => {
       })
   }, [])
 
-  if (!dataset) return <div id='loading'>Loading...</div>
+  if (!dataset)
+    return <div id='loading'>{loadingIntl[filtersState.language]}</div>
 
   return (
     <div id='app-root' className={showContents ? 'show-contents' : ''}>
@@ -63,6 +65,7 @@ const Root: FC<{ lang: string }> = ({ lang }) => {
           labelGridCellSize: 100,
           labelRenderedSizeThreshold: 6,
           labelFont: 'Helvetica Neue, sans-serif',
+          labelWeight: '300',
           zIndex: true
         }}
         className='react-sigma'
@@ -105,10 +108,15 @@ const Root: FC<{ lang: string }> = ({ lang }) => {
                   <GrClose />
                 </button>
               </div>
-              <GraphTitle filters={filtersState} />
-              <div className='panels'>
+              <div className='top-left'>
+                <GraphTitle filters={filtersState} />
                 <SearchField filters={filtersState} />
-                <DescriptionPanel filters={filtersState} />
+              </div>
+              <div className='panels'>
+                <DescriptionPanel
+                  filters={filtersState}
+                  initiallyDeployed={false}
+                />
                 <ClustersPanel
                   clusters={dataset.clusters}
                   filters={filtersState}

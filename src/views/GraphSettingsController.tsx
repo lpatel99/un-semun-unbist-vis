@@ -63,7 +63,7 @@ const GraphSettingsController: FC<{
               ? { ...data, zIndex: 1 }
               : {
                   ...data,
-                  zIndex: 0,
+                  zIndex: -1,
                   label: '',
                   color: NODE_FADE_COLOR,
                   image: null,
