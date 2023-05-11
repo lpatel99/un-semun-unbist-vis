@@ -2,7 +2,8 @@
 
 Now represents UNBIS Thesaurus, but soon to be expanded to UN Digital Library documents
 
-<img width="1731" alt="image" src="https://user-images.githubusercontent.com/33360172/235352738-b87d4f50-e5ff-4339-b1d7-da9772a353f9.png">
+<img width="1739" alt="image" src="https://github.com/ClementSicard/un-unbist-graph-ui/assets/33360172/4eb0bd6e-3469-4500-8adf-0706321c5f3f">
+
 
 ## Stack
 
