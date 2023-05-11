@@ -1,4 +1,4 @@
-# 🇺🇳 United Nations Graph UI
+# 🇺🇳 United Nations Searchable Graph UI
 
 Now represents UNBIS Thesaurus, but soon to be expanded to UN Digital Library documents
 
