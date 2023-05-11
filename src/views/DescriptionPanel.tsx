@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { BsInfoCircle } from 'react-icons/bs'
+import { BsGithub, BsInfoCircle } from 'react-icons/bs'
 
 import Panel from './Panel'
 import { FiltersState } from '../types'
@@ -19,85 +19,65 @@ const DescriptionPanel: FC<{
       }
     >
       <p>
-        This map represents a <i>network</i> of Wikipedia articles around the
-        topic of "Data vizualisation". Each <i>node</i> represents an article,
-        and each edge a{' '}
+        This map represents a <i>network</i> of all{' '}
         <a
           target='_blank'
           rel='noreferrer'
-          href='https://en.wikipedia.org/wiki/See_also'
+          href='https://metadata.un.org/thesaurus/about?lang=en'
         >
-          "See also" link
-        </a>
-        .
+          UNBIS Thesaurus
+        </a>{' '}
+        subjects. Each <i>node</i> represents a subject, and each edges link
+        between subjects.
       </p>
       <p>
-        The seed articles were selected by hand by the{' '}
+        For the current iteration, the data was scraped from Thesaurus website (
         <a
           target='_blank'
           rel='noreferrer'
-          href='https://medialab.sciencespo.fr/'
+          href='https://github.com/ClementSicard/un-unbis-thesaurus-scraper'
         >
-          Sciences-Po médialab
-        </a>{' '}
-        team, and the network was crawled using{' '}
-        <a
-          target='_blank'
-          rel='noreferrer'
-          href='https://densitydesign.github.io/strumentalia-seealsology/'
-        >
-          Seealsology
+          code here <BsGithub />
         </a>
-        , and then cleaned and enriched manually. This makes the dataset
-        creditable to both the médialab team and{' '}
-        <a
-          target='_blank'
-          rel='noreferrer'
-          href='https://en.wikipedia.org/wiki/Wikipedia:Wikipedians'
-        >
-          Wikipedia editors
-        </a>
-        .
+        )
       </p>
       <p>
         This web application has been developed by{' '}
         <a
           target='_blank'
           rel='noreferrer'
-          href='https://www.ouestware.com/en/'
+          href='https://github.com/ClementSicard'
         >
-          OuestWare
+          Clément Sicard
         </a>
         , using{' '}
         <a target='_blank' rel='noreferrer' href='https://reactjs.org/'>
           react
         </a>{' '}
         and{' '}
-        <a target='_blank' rel='noreferrer' href='https://www.sigmajs.org'>
-          sigma.js
+        <a
+          target='_blank'
+          rel='noreferrer'
+          href='https://sim51.github.io/react-sigma/'
+        >
+          @react-sigma
         </a>
         . You can read the source code{' '}
         <a
           target='_blank'
           rel='noreferrer'
-          href='https://github.com/jacomyal/sigma.js/tree/main/demo'
+          href='https://github.com/ClementSicard/un-unbist-graph-ui'
         >
-          on GitHub
+          on GitHub <BsGithub />
         </a>
         .
       </p>
       <p>
-        Nodes sizes are related to their{' '}
-        <a
-          target='_blank'
-          rel='noreferrer'
-          href='https://en.wikipedia.org/wiki/Betweenness_centrality'
-        >
-          betweenness centrality
-        </a>
-        . More central nodes (ie. bigger nodes) are important crossing points in
-        the network. Finally, You can click a node to open the related Wikipedia
-        article.
+        This demo is not meant to be a final product, but rather a proof of
+        concept around a graph/network visualization. In the future, the results
+        of the search will be documents, displayed in the graph as nodes, and
+        edges will link documents to other documents, subjects, member states,
+        etc.
       </p>
     </Panel>
   )
