@@ -28,7 +28,9 @@ const DescriptionPanel: FC<{
           UNBIS Thesaurus
         </a>{' '}
         subjects. Each <i>node</i> represents a subject, and each edges link
-        between subjects.
+        between subjects. The size of the node is proportional to its level in
+        Thesaurus hierarchy. Finally, a click on a node will get you to its
+        Thesaurus entry.
       </p>
       <p>
         For the current iteration, the data was scraped from Thesaurus website (
@@ -78,6 +80,10 @@ const DescriptionPanel: FC<{
         of the search will be documents, displayed in the graph as nodes, and
         edges will link documents to other documents, subjects, member states,
         etc.
+      </p>
+      <p>
+        It is also multilingual, and the language can be changed in the bottom
+        "Language" panel.
       </p>
     </Panel>
   )
