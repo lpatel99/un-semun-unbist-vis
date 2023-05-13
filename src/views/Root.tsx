@@ -16,6 +16,7 @@ import SearchField from './SearchField'
 import drawLabel from '../canvas-utils'
 import GraphTitle from './GraphTitle'
 import '@react-sigma/core/lib/react-sigma.min.css'
+import { Analytics } from '@vercel/analytics/react'
 import { GrClose } from 'react-icons/gr'
 import { BiBookContent } from 'react-icons/bi'
 import LanguagesPanel from './LanguagesPanel'
@@ -55,6 +56,7 @@ const Root: FC<{ lang: string }> = ({ lang }) => {
 
   return (
     <div id='app-root' className={showContents ? 'show-contents' : ''}>
+      <Analytics />
       <SigmaContainer
         settings={{
           nodeProgramClasses: { image: getNodeProgramImage() },
