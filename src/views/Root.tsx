@@ -129,7 +129,7 @@ const Root: FC<{ lang: string }> = ({ lang }) => {
                 <ClustersPanel
                   clusters={dataset.clusters}
                   filters={filtersState}
-                  initiallyDeployed={true}
+                  initiallyDeployed={false}
                   setClusters={clusters =>
                     setFiltersState(filters => ({
                       ...filters,
