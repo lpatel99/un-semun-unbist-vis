@@ -40,18 +40,18 @@ const GraphDataController: FC<{
     graph.forEachNode(node => {
       var size = 0
       switch (graph.getNodeAttribute(node, 'node_type')) {
-        case 'meta_topic':
+        case 'MetaTopic':
           size = METATOPIC_NODE_SIZE
           break
-        case 'topic':
+        case 'Topic':
           size = TOPIC_NODE_SIZE
           break
-        case 'subtopic':
+        case '':
           size = SUBTOPIC_NODE_SIZE
           break
 
         default:
-          size = 2
+          size = 3
           break
       }
       graph.setNodeAttribute(node, 'size', size)
@@ -80,35 +80,49 @@ const GraphDataController: FC<{
 
   useEffect(() => {
     var language_field = ''
+    var alt_labels_field = ''
+
     switch (filters.language) {
       case 'en':
         language_field = 'label_en'
+        alt_labels_field = 'alt_labels_en'
         break
       case 'fr':
         language_field = 'label_fr'
+        alt_labels_field = 'alt_labels_fr'
         break
       case 'es':
         language_field = 'label_es'
+        alt_labels_field = 'alt_labels_es'
         break
       case 'ar':
         language_field = 'label_ar'
+        alt_labels_field = 'alt_labels_ar'
         break
       case 'ru':
         language_field = 'label_ru'
+        alt_labels_field = 'alt_labels_ru'
         break
       case 'zh':
         language_field = 'label_zh'
+        alt_labels_field = 'alt_labels_zh'
         break
       default:
         language_field = 'label_en'
+        alt_labels_field = 'alt_labels_en'
         break
     }
 
     graph.forEachNode(node => {
-      return graph.setNodeAttribute(
+      graph.setNodeAttribute(
         node,
         'label',
         graph.getNodeAttribute(node, language_field)
+      )
+      graph.setNodeAttribute(
+        node,
+        'alt_labels',
+        graph.getNodeAttribute(node, alt_labels_field)
       )
     })
   }, [graph, filters.language])

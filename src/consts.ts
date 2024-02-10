@@ -105,3 +105,13 @@ export const languageInstructionIntl: { [key: string]: string } =
     "ru": "Нажмите на язык, чтобы обновить отображаемый язык.",
     "zh": "单击语言以更新显示的语言。",
 };
+
+export const thesaurusIntl: { [key: string]: string } =
+{
+    "en": "UNBIS Thesaurus",
+    "ar": "مكنز نظام الأمم المتحدة للمعلومات الببليوغرافية",
+    "es": "Tesauro UNBIS",
+    "fr": "Thésaurus UNBIS",
+    "ru": "Тезаурусе ЮНБИС",
+    "zh": "联合国书目信息系统叙词表",
+};

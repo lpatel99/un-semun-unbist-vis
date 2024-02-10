@@ -26,8 +26,13 @@ const SearchField: FC<{ filters: FiltersState }> = ({ filters }) => {
   const [selected, setSelected] = useState<string | null>(null)
 
   const refreshValues = () => {
-    const newValues: Array<{ id: string; label: string }> = []
+    const newValues: Array<{
+      id: string
+      label: string
+    }> = []
+    const existingLabels: Set<string> = new Set()
     const lcSearch = search.toLowerCase()
+
     if (!selected && search.length > 1) {
       sigma
         .getGraph()
@@ -36,11 +41,38 @@ const SearchField: FC<{ filters: FiltersState }> = ({ filters }) => {
             !attributes.hidden &&
             attributes.label &&
             attributes.label.toLowerCase().indexOf(lcSearch) === 0
-          )
-            newValues.push({ id: key, label: attributes.label })
+          ) {
+            if (existingLabels.has(attributes.label)) {
+              return
+            }
+            newValues.push({
+              id: key,
+              label: attributes.label
+            })
+            existingLabels.add(attributes.label)
+          } else if (
+            !attributes.hidden &&
+            attributes.alt_labels &&
+            attributes.alt_labels.some(
+              (label: string) => label.toLowerCase().indexOf(lcSearch) === 0
+            )
+          ) {
+            for (const label of attributes.alt_labels) {
+              if (label.toLowerCase().indexOf(lcSearch) === 0) {
+                if (existingLabels.has(attributes.label)) {
+                  return
+                }
+                newValues.push({
+                  id: key,
+                  label: label
+                })
+                existingLabels.add(attributes.label)
+              }
+            }
+          }
         })
     }
-    setValues(newValues)
+    setValues(newValues.sort((a, b) => a.label.localeCompare(b.label)))
   }
 
   // Refresh values when search is updated:
@@ -55,18 +87,27 @@ const SearchField: FC<{ filters: FiltersState }> = ({ filters }) => {
     if (!selected) return
 
     sigma.getGraph().setNodeAttribute(selected, 'highlighted', true)
+    // Get current camera position
+
     const nodeDisplayData = sigma.getNodeDisplayData(selected)
 
-    if (nodeDisplayData)
+    if (nodeDisplayData) {
       sigma.getCamera().animate(
         { ...nodeDisplayData, ratio: 0.05 },
         {
           duration: 600
         }
       )
+    }
 
     return () => {
       sigma.getGraph().setNodeAttribute(selected, 'highlighted', false)
+      sigma.getCamera().animate(
+        { ...nodeDisplayData, ratio: 0.05 },
+        {
+          duration: 600
+        }
+      )
     }
   }, [selected])
 

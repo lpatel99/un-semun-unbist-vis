@@ -12,6 +12,12 @@ export interface NodeData {
   label_fr: string;
   label_ru: string;
   label_zh: string;
+  alt_labels: string[];
+  alt_labels_ar: string[];
+  alt_labels_es: string[];
+  alt_labels_fr: string[];
+  alt_labels_ru: string[];
+  alt_labels_zh: string[];
 }
 
 export interface Cluster {
