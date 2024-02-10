@@ -114,10 +114,17 @@ const Root: FC<{ lang: string }> = ({ lang }) => {
                 <GraphTitle filters={filtersState} />
                 <SearchField filters={filtersState} />
               </div>
+
               <div className='panels'>
-                <DescriptionPanel
+                <LanguagesPanel
                   filters={filtersState}
-                  initiallyDeployed={false}
+                  toggleLanguage={language => {
+                    setFiltersState(filters => ({
+                      ...filters,
+                      language: language
+                    }))
+                    navigate(`/${language}`)
+                  }}
                 />
                 <ClustersPanel
                   clusters={dataset.clusters}
@@ -138,15 +145,9 @@ const Root: FC<{ lang: string }> = ({ lang }) => {
                     }))
                   }}
                 />
-                <LanguagesPanel
+                <DescriptionPanel
                   filters={filtersState}
-                  toggleLanguage={language => {
-                    setFiltersState(filters => ({
-                      ...filters,
-                      language: language
-                    }))
-                    navigate(`/${language}`)
-                  }}
+                  initiallyDeployed={true}
                 />
               </div>
             </div>

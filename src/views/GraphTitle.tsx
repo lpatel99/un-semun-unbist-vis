@@ -7,6 +7,34 @@ function prettyPercentage (val: number): string {
   return (val * 100).toFixed(1) + '%'
 }
 
+function informationString (
+  nbNodes: number,
+  nbEdges: number,
+  visibleNodes: number,
+  visibleEdges: number
+): string {
+  var s = `${nbNodes.toLocaleString('en-US', {
+    maximumFractionDigits: 0
+  })} node${nbNodes > 1 ? 's' : ''}`
+
+  s += ` ${
+    visibleNodes !== nbNodes
+      ? ` (only ${prettyPercentage(visibleNodes / nbNodes)} visible) `
+      : ''
+  }`
+
+  s += `• ${nbEdges.toLocaleString('en-US', {
+    maximumFractionDigits: 0
+  })} edge${nbEdges > 1 ? 's' : ''}`
+  s += ` ${
+    visibleEdges !== nbEdges
+      ? ` (only ${prettyPercentage(visibleEdges / nbEdges)} visible)`
+      : ''
+  }`
+
+  return s
+}
+
 const GraphTitle: FC<{ filters: FiltersState }> = ({ filters }) => {
   const sigma = useSigma()
   const graph = sigma.getGraph()
@@ -32,24 +60,34 @@ const GraphTitle: FC<{ filters: FiltersState }> = ({ filters }) => {
 
   return (
     <div className='graph-title'>
-      <h1>United Nations UNBIS Thesaurus – Network Visualization</h1>
-      <h2>
-        <i>
-          {graph.order} node{graph.order > 1 ? 's' : ''}{' '}
+      <div className='graph-title-text'>
+        <h1>United Nations UNBIS Thesaurus – Network Visualization</h1>
+        <h2>
+          <i>
+            {informationString(
+              graph.order,
+              graph.size,
+              visibleItems.nodes,
+              visibleItems.edges
+            )}
+            {/* {graph.order.toLocaleString('en-US', { maximumFractionDigits: 0 })}{' '}
+          node{graph.order > 1 ? 's' : ''}{' '}
           {visibleItems.nodes !== graph.order
             ? ` (only ${prettyPercentage(
                 visibleItems.nodes / graph.order
               )} visible)`
             : ''}
-          , {graph.size} edge
+          {graph.size.toLocaleString('en-US', { maximumFractionDigits: 0 })}{' '}
+          edge
           {graph.size > 1 ? 's' : ''}{' '}
           {visibleItems.edges !== graph.size
             ? ` (only ${prettyPercentage(
                 visibleItems.edges / graph.size
               )} visible)`
-            : ''}
-        </i>
-      </h2>
+            : ''} */}
+          </i>
+        </h2>
+      </div>
     </div>
   )
 }

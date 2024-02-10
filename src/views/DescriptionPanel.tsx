@@ -85,6 +85,35 @@ const DescriptionPanel: FC<{
         It is also multilingual, and the language can be changed in the bottom
         "Language" panel.
       </p>
+      <p>This project is the fruit of a collaboration between:</p>
+      {/* display public/images/eth-css.png in a row, with both having the same width*/}
+      <span
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '20px'
+        }}
+      >
+        <a href='https://www.css.ethz.ch/' target='_blank' rel='noreferrer'>
+          <img
+            src={`${process.env.PUBLIC_URL}/images/eth-css.png`}
+            alt='ETH Zurich CSS'
+            style={{ width: '100%' }}
+          />
+        </a>
+        <a
+          href={`https://digitallibrary.un.org/?ln=${filters.language}`}
+          target='_blank'
+          rel='noreferrer'
+        >
+          <img
+            src={'https://digitallibrary.un.org/img/main_logo_en.png'}
+            alt='UN Digital Library'
+            style={{ width: '80%' }}
+          />
+        </a>
+      </span>
     </Panel>
   )
 }

@@ -18,6 +18,7 @@
   --stage-padding: 8px;
   --panels-width: 350px;
   --border-radius: 30px;
+  --small-border-radius: 15px;
   font-family: Helvetica Neue, sans-serif;
   font-weight: 400;
   background: white;
@@ -131,9 +132,15 @@ body {
   width: 100%;
   max-width: 100%;
   margin-bottom: 0.5em;
-  /* border-radius: 30px; */
 }
 
+.top-left > .graph-title > .graph-title-text {
+  color: var(--dark-grey);
+  background: var(--transparent-white);
+  padding: 0.2em 0.5em;
+  margin: 0;
+  border-radius: var(--small-border-radius);
+}
 .top-left > .graph-title h1 {
   font-size: 1.8em;
   color: var(--dark-grey);
@@ -141,7 +148,6 @@ body {
 .top-left > .graph-title h1,
 .top-left > .graph-title h2 {
   margin: 0;
-  background: var(--transparent-white);
   padding: 0.2em 0.5em;
 }
 .panels {
