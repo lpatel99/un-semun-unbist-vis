@@ -7,6 +7,7 @@ import {
   languagesMapping
 } from '../consts'
 import Panel from './Panel'
+import { Radio, Text, Stack } from '@chakra-ui/react'
 
 const LanguagesPanel: FC<{
   filters: FiltersState
@@ -20,38 +21,24 @@ const LanguagesPanel: FC<{
         </>
       }
     >
-      <p>
-        <i className='text-muted'>
-          {languageInstructionIntl[filters.language]}
-        </i>
-      </p>
-      <p className='buttons'></p>
-      <ul>
-        {languagesMapping.map(lang => {
-          return (
-            <li className='caption-row' key={lang.key} title={lang['label']}>
-              <input
-                type='checkbox'
-                checked={filters.language === lang.key}
-                onChange={() => toggleLanguage(lang.key)}
-                id={`lang-${lang.key}`}
-              />
-              <label htmlFor={`lang-${lang.key}`}>
-                <span
-                  className='circle'
-                  style={{
-                    background: '#5b92e5',
-                    borderColor: '#5b92e5'
-                  }}
-                />{' '}
-                <div className='node-label-2'>
-                  <span>{lang.label}</span>
-                </div>
-              </label>
-            </li>
-          )
-        })}
-      </ul>
+      <Text fontStyle='italic' color='gray.500' mb={4} minH={10} mt={4}>
+        {languageInstructionIntl[filters.language]}
+      </Text>
+      <Stack spacing={2} mt={4}>
+        {languagesMapping.map(lang => (
+          <Radio
+            key={lang.key}
+            isChecked={filters.language === lang.key}
+            onChange={() => toggleLanguage(lang.key)}
+            id={`lang-${lang.key}`}
+            value={lang.key}
+            color='#5b92e5'
+            size='lg'
+          >
+            {lang.label}
+          </Radio>
+        ))}
+      </Stack>
     </Panel>
   )
 }

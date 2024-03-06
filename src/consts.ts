@@ -12,14 +12,14 @@ export const languagesMapping = [
 ];
 
 
-export const descriptionIntl: { [key: string]: string } =
+export const informationIntl: { [key: string]: string } =
 {
-    "en": "Description",
-    "ar": "وصف",
-    "es": "Descripción",
-    "fr": "Description",
-    "ru": "Описание",
-    "zh": "描述",
+    "en": "Information",
+    "ar": "معلومات",
+    "es": "Información",
+    "fr": "Information",
+    "ru": "Информация",
+    "zh": "信息",
 };
 
 

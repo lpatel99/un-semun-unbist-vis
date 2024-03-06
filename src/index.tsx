@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './styles.css'
 import ErrorPage from './views/ErrorPage'
 import RootWrapper from './views/RootWrapper'
+import { ChakraProvider } from '@chakra-ui/react'
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,8 @@ const root = createRoot(container!)
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ChakraProvider>
+      <RouterProvider router={router} />
+    </ChakraProvider>
   </React.StrictMode>
 )

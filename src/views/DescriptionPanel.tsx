@@ -1,9 +1,11 @@
 import { FC } from 'react'
-import { BsGithub, BsInfoCircle } from 'react-icons/bs'
+import { BsInfoCircle } from 'react-icons/bs'
+import { Divider, Link, Text, Flex } from '@chakra-ui/react'
+import { ExternalLinkIcon } from '@chakra-ui/icons'
 
 import Panel from './Panel'
 import { FiltersState } from '../types'
-import { descriptionIntl } from '../consts'
+import { informationIntl } from '../consts'
 
 const DescriptionPanel: FC<{
   filters: FiltersState
@@ -14,106 +16,93 @@ const DescriptionPanel: FC<{
       initiallyDeployed={initiallyDeployed}
       title={
         <>
-          <BsInfoCircle className='icon' /> {descriptionIntl[filters.language]}
+          <BsInfoCircle className='icon' /> {informationIntl[filters.language]}
         </>
       }
     >
-      <p>
+      <Text>
         This map represents a <i>network</i> of all{' '}
-        <a
-          target='_blank'
-          rel='noreferrer'
+        <Link
           href='https://metadata.un.org/thesaurus/about?lang=en'
+          target='_blank'
+          rel='noopener noreferrer'
         >
           UNBIS Thesaurus
-        </a>{' '}
-        subjects. Each <i>node</i> represents a subject, and each edges link
+        </Link>{' '}
+        subjects. Each <i>node</i> represents a subject, and each edge links
         between subjects. The size of the node is proportional to its level in
-        Thesaurus hierarchy. Finally, a click on a node will get you to its
+        Thesaurus hierarchy. Finally, a click on a node will take you to its
         Thesaurus entry.
-      </p>
-      <p>
-        For the current iteration, the data was scraped from Thesaurus website (
-        <a
-          target='_blank'
-          rel='noreferrer'
+      </Text>
+      <Divider my={2} />
+      <Text>
+        For the current iteration, the data was scraped from the Thesaurus
+        website (
+        <Link
           href='https://github.com/ClementSicard/un-unbis-thesaurus-scraper'
+          isExternal
         >
-          code here <BsGithub />
-        </a>
+          code here
+          <ExternalLinkIcon mx='2px' />
+        </Link>
         )
-      </p>
-      <p>
+      </Text>
+      <Text>
         This web application has been developed by{' '}
-        <a
-          target='_blank'
-          rel='noreferrer'
-          href='https://github.com/ClementSicard'
-        >
-          Clément Sicard
-        </a>
+        <Link href='https://clementsicard.ch' isExternal>
+          Clément Sicard <ExternalLinkIcon mx='2px' />
+        </Link>
         , using{' '}
-        <a target='_blank' rel='noreferrer' href='https://reactjs.org/'>
-          react
-        </a>{' '}
+        <Link href='https://reactjs.org/' isExternal>
+          React <ExternalLinkIcon mx='2px' />
+        </Link>{' '}
         and{' '}
-        <a
-          target='_blank'
-          rel='noreferrer'
-          href='https://sim51.github.io/react-sigma/'
-        >
-          @react-sigma
-        </a>
+        <Link href='https://sim51.github.io/react-sigma/' isExternal>
+          @react-sigma <ExternalLinkIcon mx='2px' />
+        </Link>
         . You can read the source code{' '}
-        <a
-          target='_blank'
-          rel='noreferrer'
+        <Link
           href='https://github.com/ClementSicard/un-unbist-graph-ui'
+          isExternal
         >
-          on GitHub <BsGithub />
-        </a>
+          on GitHub <ExternalLinkIcon mx='2px' />
+        </Link>
         .
-      </p>
-      <p>
+      </Text>
+      <Text>
         This demo is not meant to be a final product, but rather a proof of
         concept around a graph/network visualization. In the future, the results
         of the search will be documents, displayed in the graph as nodes, and
         edges will link documents to other documents, subjects, member states,
         etc.
-      </p>
-      <p>
+      </Text>
+      <Text>
         It is also multilingual, and the language can be changed in the bottom
         "Language" panel.
-      </p>
-      <p>This project is the fruit of a collaboration between:</p>
-      {/* display public/images/eth-css.png in a row, with both having the same width*/}
-      <span
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: '20px'
-        }}
-      >
-        <a href='https://www.css.ethz.ch/' target='_blank' rel='noreferrer'>
-          <img
-            src={`${process.env.PUBLIC_URL}/images/eth-css.png`}
-            alt='ETH Zurich CSS'
-            style={{ width: '100%' }}
-          />
-        </a>
-        <a
+      </Text>
+      <Divider my={4} />
+      <Text>This project is the fruit of a collaboration between:</Text>
+
+      {/* Display images in a row */}
+      <Flex justify='space-between' align='center' mt={2}>
+        <Link
           href={`https://digitallibrary.un.org/?ln=${filters.language}`}
-          target='_blank'
-          rel='noreferrer'
+          isExternal
         >
           <img
             src={'https://digitallibrary.un.org/img/main_logo_en.png'}
             alt='UN Digital Library'
             style={{ width: '80%' }}
           />
-        </a>
-      </span>
+        </Link>
+        <Link href='https://www.css.ethz.ch/' isExternal>
+          <img
+            src={`${process.env.PUBLIC_URL}/images/eth-css.png`}
+            alt='ETH Zurich CSS'
+            style={{ width: '100%' }}
+          />
+        </Link>
+      </Flex>
     </Panel>
   )
 }
