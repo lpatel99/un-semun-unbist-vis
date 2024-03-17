@@ -49,7 +49,6 @@ const GraphEventsController: FC<{
     registerEvents({
       clickNode ({ node, event }) {
         if (!graph.getNodeAttribute(node, 'hidden')) {
-          console.log(typeof node)
           setSelectedNode(node)
           setHoveredNode(node)
           setPopoverPosition({ left: event.x, top: event.y })
@@ -57,17 +56,14 @@ const GraphEventsController: FC<{
       },
       enterNode ({ node }) {
         if (!popoverOpen) {
-          console.warn('Coucou entre')
           setHoveredNode(node)
         }
         const mouseLayer = getMouseLayer()
         if (mouseLayer) mouseLayer.classList.add('mouse-pointer')
       },
       leaveNode () {
-        console.log('Leaving ' + selectedNode)
         // If selectedNode is null, then we are not hovering any node
         if (!popoverOpen) {
-          console.warn('Coucou sort')
           setHoveredNode(null)
         }
         const mouseLayer = getMouseLayer()
@@ -86,8 +82,10 @@ const GraphEventsController: FC<{
   const openDLSearchResults = (node: string) => {
     console.log(`Opening UNBIS Thesaurus entry for: ${node}`)
     const label = graph.getNodeAttribute(node, 'label_en')
+    console.warn(label)
     // Formatted is the joint list of words joint by "+" and put full caps
     const formattedLabel = label.split(' ').join('+').toUpperCase()
+    console.error(`Formatted label: ${formattedLabel}`)
     const url = `${undlUrl}?ln=${filters.language}&p=subjectheading:[${formattedLabel}]`
 
     window.open(url, '_blank')

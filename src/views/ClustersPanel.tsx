@@ -12,6 +12,7 @@ import {
   clusterIntl as clustersIntl,
   uncheckAllIntl
 } from '../consts'
+import { Button, Text } from '@chakra-ui/react'
 
 const ClustersPanel: FC<{
   clusters: Cluster[]
@@ -78,21 +79,36 @@ const ClustersPanel: FC<{
         </>
       }
     >
-      <p>
-        <i className='text-muted'>{clusterInstructionIntl[filters.language]}</i>
-      </p>
+      <Text fontStyle='italic' color='gray.500' mb={4} minH={10} mt={4}>
+        {clusterInstructionIntl[filters.language]}
+      </Text>
       <p className='buttons'>
-        <button
-          className='btn'
+        <Button
           onClick={() =>
             setClusters(mapValues(keyBy(clusters, 'key'), () => true))
           }
+          leftIcon={<AiOutlineCheckCircle />}
+          mb={4}
+          borderRadius='20px'
+          colorScheme='blue'
+          variant={
+            clusters.length !== visibleClustersCount ? 'outline' : 'solid'
+          }
         >
-          <AiOutlineCheckCircle /> {checkAllIntl[filters.language]}
-        </button>{' '}
-        <button className='btn' onClick={() => setClusters({})}>
-          <AiOutlineCloseCircle /> {uncheckAllIntl[filters.language]}
-        </button>
+          <Text>{checkAllIntl[filters.language]}</Text>
+        </Button>{' '}
+        <Button
+          onClick={() => setClusters({})}
+          leftIcon={<AiOutlineCloseCircle />}
+          mb={4}
+          borderRadius='20px'
+          colorScheme='blue'
+          variant={
+            clusters.length === visibleClustersCount ? 'outline' : 'solid'
+          }
+        >
+          <Text>{uncheckAllIntl[filters.language]}</Text>
+        </Button>
       </p>
       <ul>
         {sortedClusters.map(cluster => {

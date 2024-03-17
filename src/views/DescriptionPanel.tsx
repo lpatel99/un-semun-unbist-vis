@@ -20,7 +20,7 @@ const DescriptionPanel: FC<{
         </>
       }
     >
-      <Text>
+      <Text mt={2}>
         This map represents a <i>network</i> of all{' '}
         <Link
           href='https://metadata.un.org/thesaurus/about?lang=en'
