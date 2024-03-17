@@ -35,7 +35,9 @@ const LanguagesPanel: FC<{
             color='#5b92e5'
             size='lg'
           >
-            {lang.label}
+            <Text color='gray.500' fontSize='sm'>
+              {lang.label}
+            </Text>
           </Radio>
         ))}
       </Stack>

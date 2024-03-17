@@ -80,6 +80,7 @@ const Root: FC<{ lang: string }> = ({ lang }) => {
         <GraphEventsController
           setHoveredNode={setHoveredNode}
           filters={filtersState}
+          dataset={dataset}
         />
         <GraphDataController dataset={dataset} filters={filtersState} />
 
@@ -112,7 +113,10 @@ const Root: FC<{ lang: string }> = ({ lang }) => {
               </div>
               <div className='top-left'>
                 <GraphTitle filters={filtersState} />
-                <SearchField filters={filtersState} />
+                <SearchField
+                  setHoveredNode={setHoveredNode}
+                  filters={filtersState}
+                />
               </div>
 
               <div className='panels'>

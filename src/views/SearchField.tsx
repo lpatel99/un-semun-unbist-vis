@@ -18,7 +18,10 @@ import { searchInstructionIntl } from '../consts'
  * 1. We need to hide hidden nodes from results
  * 2. We need custom markup
  */
-const SearchField: FC<{ filters: FiltersState }> = ({ filters }) => {
+const SearchField: FC<{
+  setHoveredNode: (node: string | null) => void
+  filters: FiltersState
+}> = ({ setHoveredNode, filters }) => {
   const sigma = useSigma()
 
   const [search, setSearch] = useState<string>('')
@@ -118,8 +121,10 @@ const SearchField: FC<{ filters: FiltersState }> = ({ filters }) => {
       setSearch(valueItem.label)
       setValues([])
       setSelected(valueItem.id)
+      setHoveredNode(valueItem.id)
     } else {
       setSelected(null)
+      setHoveredNode(null)
       setSearch(searchString)
     }
   }
@@ -128,6 +133,7 @@ const SearchField: FC<{ filters: FiltersState }> = ({ filters }) => {
     if (e.key === 'Enter' && values.length) {
       setSearch(values[0].label)
       setSelected(values[0].id)
+      setHoveredNode(values[0].id)
     }
   }
 

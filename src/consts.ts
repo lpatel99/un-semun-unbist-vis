@@ -1,5 +1,8 @@
-// Declare a list of langauge
+export const thesaurusUrl = "https://metadata.un.org/thesaurus/";
 
+export const undlUrl = "https://digitallibrary.un.org/search";
+
+// Declare a list of langauge
 export const languages = ["en", "ar", "es", "fr", "ru", "zh"];
 
 export const languagesMapping = [
@@ -114,4 +117,25 @@ export const thesaurusIntl: { [key: string]: string } =
     "fr": "Thésaurus UNBIS",
     "ru": "Тезаурусе ЮНБИС",
     "zh": "联合国书目信息系统叙词表",
+};
+
+
+export const findRelatedIntl: { [key: string]: string } =
+{
+    "en": "Find related documents",
+    "ar": "العثور على وثائق ذات صلة",
+    "es": "Encontrar documentos relacionados",
+    "fr": "Trouver des documents connexes",
+    "ru": "Найти связанные документы",
+    "zh": "查找相关文件",
+};
+
+export const seeInThesaurusIntl: { [key: string]: string } =
+{
+    "en": "See in UNBIS Thesaurus",
+    "ar": "انظر في مكنز نظام الأمم المتحدة للمعلومات الببليوغرافية",
+    "es": "Ver en UNBIS Thesaurus",
+    "fr": "Voir dans UNBIS Thesaurus",
+    "ru": "Смотреть в UNBIS Thesaurus",
+    "zh": "在联合国书目信息系统叙词表中查看",
 };
