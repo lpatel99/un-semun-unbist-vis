@@ -74,18 +74,13 @@ const GraphEventsController: FC<{
 
   const openThesaurusEntry = (node: string) => {
     const url = thesaurusUrl + node + `?lang=${filters.language}`
-    console.log(`url: ${url}`)
-
     window.open(url, '_blank')
   }
 
   const openDLSearchResults = (node: string) => {
-    console.log(`Opening UNBIS Thesaurus entry for: ${node}`)
     const label = graph.getNodeAttribute(node, 'label_en')
-    console.warn(label)
     // Formatted is the joint list of words joint by "+" and put full caps
     const formattedLabel = label.split(' ').join('+').toUpperCase()
-    console.error(`Formatted label: ${formattedLabel}`)
     const url = `${undlUrl}?ln=${filters.language}&p=subjectheading:[${formattedLabel}]`
 
     window.open(url, '_blank')
