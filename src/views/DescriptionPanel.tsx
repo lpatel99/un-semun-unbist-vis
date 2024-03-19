@@ -21,67 +21,56 @@ const DescriptionPanel: FC<{
       }
     >
       <Text mt={2}>
-        This map represents a <i>network</i> of all{' '}
+        This app shows a network representation of the{' '}
         <Link
           href='https://metadata.un.org/thesaurus/about?lang=en'
           target='_blank'
           rel='noopener noreferrer'
         >
           UNBIS Thesaurus
-        </Link>{' '}
-        subjects. Each <i>node</i> represents a subject, and each edge links
-        between subjects. The size of the node is proportional to its level in
-        Thesaurus hierarchy. Finally, a click on a node will take you to its
-        Thesaurus entry.
+        </Link>
+        . Each <i>node</i> represents a subject, while <i>edges</i> represent
+        links between subjects. The size of a given node corresponds to its
+        level in the Thesaurus hierarchy. Click on a node to see its Thesaurus
+        entry and to find related documents. This app is multilingual and the
+        language can be changed in the panel above.
       </Text>
       <Divider my={2} />
+
       <Text>
-        For the current iteration, the data was scraped from the Thesaurus
-        website (
-        <Link
-          href='https://github.com/ClementSicard/un-unbis-thesaurus-scraper'
-          isExternal
-        >
-          code here
-          <ExternalLinkIcon mx='2px' />
-        </Link>
-        )
-      </Text>
-      <Text>
-        This web application has been developed by{' '}
-        <Link href='https://clementsicard.ch' isExternal>
+        This web application has been realised by{' '}
+        <Link href='https://github.com/ClementSicard' isExternal>
           Clément Sicard <ExternalLinkIcon mx='2px' />
         </Link>
-        , using{' '}
-        <Link href='https://reactjs.org/' isExternal>
-          React <ExternalLinkIcon mx='2px' />
-        </Link>{' '}
-        and{' '}
+        , using React and{' '}
         <Link href='https://sim51.github.io/react-sigma/' isExternal>
           @react-sigma <ExternalLinkIcon mx='2px' />
         </Link>
-        . You can read the source code{' '}
+        source code{' '}
         <Link
           href='https://github.com/ClementSicard/un-unbist-graph-ui'
           isExternal
         >
-          on GitHub <ExternalLinkIcon mx='2px' />
+          here <ExternalLinkIcon mx='2px' />
         </Link>
-        .
-      </Text>
-      <Text>
-        This demo is not meant to be a final product, but rather a proof of
-        concept around a graph/network visualization. In the future, the results
-        of the search will be documents, displayed in the graph as nodes, and
-        edges will link documents to other documents, subjects, member states,
-        etc.
-      </Text>
-      <Text>
-        It is also multilingual, and the language can be changed in the bottom
-        "Language" panel.
+        . The underlying data is currently being scraped from the UNBIS
+        Thesaurus website (scraper code{' '}
+        <Link
+          href='https://github.com/ClementSicard/un-unbis-thesaurus-scraper'
+          isExternal
+        >
+          here <ExternalLinkIcon mx='2px' />
+        </Link>
+        ).
+        <Divider my={2} />
+        Note that the app is not meant to be a final product, but rather a proof
+        of concept. Future iterations could enrich the graph with other types of
+        nodes, such as documents and different real-world entities.
       </Text>
       <Divider my={4} />
-      <Text>This project is the fruit of a collaboration between:</Text>
+      <Text>
+        This project has been made possible by a collaboration between:
+      </Text>
 
       {/* Display images in a row */}
       <Flex justify='space-between' align='center' mt={2}>
