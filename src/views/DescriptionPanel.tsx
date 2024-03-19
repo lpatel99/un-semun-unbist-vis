@@ -46,12 +46,12 @@ const DescriptionPanel: FC<{
         <Link href='https://sim51.github.io/react-sigma/' isExternal>
           @react-sigma <ExternalLinkIcon mx='2px' />
         </Link>
-        source code{' '}
+        (source code{' '}
         <Link
           href='https://github.com/ClementSicard/un-unbist-graph-ui'
           isExternal
         >
-          here <ExternalLinkIcon mx='2px' />
+          here <ExternalLinkIcon mx='2px' />)
         </Link>
         . The underlying data is currently being scraped from the UNBIS
         Thesaurus website (scraper code{' '}
