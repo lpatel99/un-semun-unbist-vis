@@ -139,3 +139,13 @@ export const seeInThesaurusIntl: { [key: string]: string } =
     "ru": "Смотреть в UNBIS Thesaurus",
     "zh": "在联合国书目信息系统叙词表中查看",
 };
+
+export const queryNaturalLanguageIntl: { [key: string]: string } =
+{
+    "en": "Query in natural language",
+    "ar": "استعلام باللغة الطبيعية",
+    "es": "Consulta en lenguaje natural",
+    "fr": "Requête en langage naturel",
+    "ru": "Запрос на естественном языке",
+    "zh": "自然语言查询",
+}
