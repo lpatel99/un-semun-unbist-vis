@@ -11,6 +11,7 @@ import { BsSearch } from "react-icons/bs";
 
 import { FiltersState } from "../types";
 import { searchInstructionIntl } from "../consts";
+import { set } from "lodash";
 
 /**
  * This component is basically a fork from React-sigma-v2's SearchControl
@@ -32,7 +33,8 @@ const SearchField: FC<{
   const [topResults, setTopResults] = useState<Results>({});
   const typingTimeout = useRef<NodeJS.Timeout | null>(null);
   const inputChanged = useRef<boolean>(false);
-  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+  const [checkedLabels, setCheckedLabels] = useState<Set<string>>(new Set());
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   const startTimer = () => {
     cancelTimer();
@@ -64,10 +66,9 @@ const SearchField: FC<{
       label: string;
     }> = [];
 
-    cancelTimer();
+    setIsRefreshing(true);
 
-    console.log("inputChanged", inputChanged);
-    console.log("search", search);
+    cancelTimer();
 
     if (search.length === 0) {
       setValues([]);
@@ -75,6 +76,8 @@ const SearchField: FC<{
     }
 
     if (inputChanged.current && search.length > 0) {
+      setCheckedLabels(new Set());
+      setTopResults({});
       setInputChanged(false);
       try {
         const response = await fetch("http://localhost:5002/ask", {
@@ -90,8 +93,6 @@ const SearchField: FC<{
         const data = await response.json();
         const top: Results = data.top;
         const all: Results = data.all;
-        console.log("top", top);
-        console.log("all", all);
         setTopResults(top);
         Object.entries(top).forEach(([key, value]) => {
           newValues.push({
@@ -109,18 +110,35 @@ const SearchField: FC<{
       } catch (error) {
         console.error("Error fetching search results:", error);
       }
+      setIsRefreshing(false);
     }
   };
 
   const searchUnDigitalLibrary = async () => {
-    await refreshValues();
+    if (search === "") {
+      return;
+    }
     var query = "";
-    Object.entries(topResults).forEach(([key, value]) => {
-      if (query !== "") {
-        query += "+OR+";
+    if (checkedLabels.size === 0) {
+      await refreshValues();
+      if (Object.keys(topResults).length === 0) {
+        return;
       }
-      query += "subjectheading:[" + key.replace(/ /g, "+") + "]";
-    });
+      Object.entries(topResults).forEach(([key, value]) => {
+        if (query !== "") {
+          query += "+OR+";
+        }
+        query += "subjectheading:[" + key.replace(/ /g, "+") + "]";
+      });
+      window.open("https://digitallibrary.un.org/search?ln=en&p=" + query);
+    } else {
+      checkedLabels.forEach((label) => {
+        if (query !== "") {
+          query += "+OR+";
+        }
+        query += "subjectheading:[" + label.replace(/ /g, "+") + "]";
+      });
+    }
     window.open("https://digitallibrary.un.org/search?ln=en&p=" + query);
   };
 
@@ -152,23 +170,11 @@ const SearchField: FC<{
   }, [selected]);
 
   useEffect(() => {
-    setHighlightedIndex(-1);
     setInputChanged(true);
     startTimer();
   }, [search]);
 
-  useEffect(() => {
-    if (highlightedIndex >= 0) {
-      const listItems = document.querySelectorAll(".search-results li");
-      const listItem = listItems[highlightedIndex] as HTMLElement;
-      if (listItem) {
-        listItem.scrollIntoView({ block: "nearest" });
-      }
-    }
-  }, [highlightedIndex]);
-
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("onInputChange");
     setSearch(e.target.value);
     setValues([]);
   };
@@ -180,35 +186,21 @@ const SearchField: FC<{
     setValues([]);
   };
 
-  const handleClick = (id: string, label: string) => {
-    // if clicked element not the highlighted one, highlight it
-    const index = values.findIndex((value) => value.id === id);
-    if (index === highlightedIndex) {
-      handleSelect(id, label);
-    } else {
-      setHighlightedIndex(index);
-    }
+  const handleToggleCheck = (label: string) => {
+    setCheckedLabels((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(label)) {
+        newSet.delete(label);
+      } else {
+        newSet.add(label);
+      }
+      return newSet;
+    });
   };
 
   const onKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      if (highlightedIndex >= 0 && highlightedIndex < values.length) {
-        console.log("highlightedIndex", highlightedIndex);
-        handleSelect(
-          values[highlightedIndex].id,
-          values[highlightedIndex].label
-        );
-      } else {
-        refreshValues();
-      }
-    } else if (e.key === "ArrowDown") {
-      setHighlightedIndex((prevIndex) =>
-        prevIndex < values.length - 1 ? prevIndex + 1 : 0
-      );
-    } else if (e.key === "ArrowUp") {
-      setHighlightedIndex((prevIndex) =>
-        prevIndex > 0 ? prevIndex - 1 : values.length - 1
-      );
+      refreshValues();
     }
   };
 
@@ -230,11 +222,12 @@ const SearchField: FC<{
       </div>
       {values.length > 0 && (
         <ul className="search-results">
-          {values.map((value, index) => (
+          {values.map((value) => (
             <li
               key={value.id}
-              className={index === highlightedIndex ? "highlighted" : ""}
-              onClick={() => handleClick(value.id, value.label)}
+              className={checkedLabels.has(value.label) ? "checked" : ""}
+              onClick={() => handleToggleCheck(value.label)}
+              onDoubleClick={() => handleSelect(value.id, value.label)}
             >
               {value.label}
             </li>

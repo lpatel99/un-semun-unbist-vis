@@ -411,7 +411,7 @@ ul > li {
   cursor: default;
 }
 
-.search-results li.highlighted {
+.search-results li.checked {
   background-color: #e8e8e8; /* Highlight color for selected item */
 }
 
