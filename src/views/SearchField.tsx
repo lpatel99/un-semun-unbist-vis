@@ -116,6 +116,9 @@ const SearchField: FC<{
     await refreshValues();
     var query = "";
     Object.entries(topResults).forEach(([key, value]) => {
+      if (query !== "") {
+        query += "+OR+";
+      }
       query += "subjectheading:[" + key.replace(/ /g, "+") + "]";
     });
     window.open("https://digitallibrary.un.org/search?ln=en&p=" + query);
@@ -149,6 +152,7 @@ const SearchField: FC<{
   }, [selected]);
 
   useEffect(() => {
+    setHighlightedIndex(-1);
     setInputChanged(true);
     startTimer();
   }, [search]);
@@ -176,9 +180,20 @@ const SearchField: FC<{
     setValues([]);
   };
 
+  const handleClick = (id: string, label: string) => {
+    // if clicked element not the highlighted one, highlight it
+    const index = values.findIndex((value) => value.id === id);
+    if (index === highlightedIndex) {
+      handleSelect(id, label);
+    } else {
+      setHighlightedIndex(index);
+    }
+  };
+
   const onKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       if (highlightedIndex >= 0 && highlightedIndex < values.length) {
+        console.log("highlightedIndex", highlightedIndex);
         handleSelect(
           values[highlightedIndex].id,
           values[highlightedIndex].label
@@ -219,7 +234,7 @@ const SearchField: FC<{
             <li
               key={value.id}
               className={index === highlightedIndex ? "highlighted" : ""}
-              onClick={() => handleSelect(value.id, value.label)}
+              onClick={() => handleClick(value.id, value.label)}
             >
               {value.label}
             </li>
