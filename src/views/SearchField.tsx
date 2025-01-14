@@ -3,14 +3,14 @@ import React, {
   ChangeEvent,
   FC,
   useEffect,
-  useState
-} from 'react'
-import { useSigma } from '@react-sigma/core'
-import { Attributes } from 'graphology-types'
-import { BsSearch } from 'react-icons/bs'
+  useState,
+  useRef,
+} from "react";
+import { useSigma } from "@react-sigma/core";
+import { BsSearch } from "react-icons/bs";
 
-import { FiltersState } from '../types'
-import { searchInstructionIntl } from '../consts'
+import { FiltersState } from "../types";
+import { searchInstructionIntl } from "../consts";
 
 /**
  * This component is basically a fork from React-sigma-v2's SearchControl
@@ -19,144 +19,215 @@ import { searchInstructionIntl } from '../consts'
  * 2. We need custom markup
  */
 const SearchField: FC<{
-  setHoveredNode: (node: string | null) => void
-  filters: FiltersState
+  setHoveredNode: (node: string | null) => void;
+  filters: FiltersState;
 }> = ({ setHoveredNode, filters }) => {
-  const sigma = useSigma()
+  const sigma = useSigma();
 
-  const [search, setSearch] = useState<string>('')
-  const [values, setValues] = useState<Array<{ id: string; label: string }>>([])
-  const [selected, setSelected] = useState<string | null>(null)
+  const [search, setSearch] = useState<string>("");
+  const [values, setValues] = useState<Array<{ id: string; label: string }>>(
+    []
+  );
+  const [selected, setSelected] = useState<string | null>(null);
+  const [topResults, setTopResults] = useState<Results>({});
+  const typingTimeout = useRef<NodeJS.Timeout | null>(null);
+  const inputChanged = useRef<boolean>(false);
+  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
 
-  const refreshValues = () => {
-    const newValues: Array<{
-      id: string
-      label: string
-    }> = []
-    const existingLabels: Set<string> = new Set()
-    const lcSearch = search.toLowerCase()
+  const startTimer = () => {
+    cancelTimer();
+    typingTimeout.current = setTimeout(() => {
+      refreshValues();
+    }, 1000);
+  };
 
-    if (!selected && search.length > 1) {
-      sigma
-        .getGraph()
-        .forEachNode((key: string, attributes: Attributes): void => {
-          if (
-            !attributes.hidden &&
-            attributes.label &&
-            attributes.label.toLowerCase().indexOf(lcSearch) === 0
-          ) {
-            if (existingLabels.has(attributes.label)) {
-              return
-            }
-            newValues.push({
-              id: key,
-              label: attributes.label
-            })
-            existingLabels.add(attributes.label)
-          } else if (
-            !attributes.hidden &&
-            attributes.alt_labels &&
-            attributes.alt_labels.some(
-              (label: string) => label.toLowerCase().indexOf(lcSearch) === 0
-            )
-          ) {
-            for (const label of attributes.alt_labels) {
-              if (label.toLowerCase().indexOf(lcSearch) === 0) {
-                if (existingLabels.has(attributes.label)) {
-                  return
-                }
-                newValues.push({
-                  id: key,
-                  label: label
-                })
-                existingLabels.add(attributes.label)
-              }
-            }
-          }
-        })
+  const cancelTimer = () => {
+    if (typingTimeout.current) {
+      clearTimeout(typingTimeout.current);
     }
-    setValues(newValues.sort((a, b) => a.label.localeCompare(b.label)))
+  };
+
+  const setInputChanged = (value: boolean) => {
+    if (value) {
+      setTopResults({});
+    }
+    inputChanged.current = value;
+  };
+
+  interface Results {
+    [key: string]: string;
   }
 
-  // Refresh values when search is updated:
-  useEffect(() => refreshValues(), [search])
+  const refreshValues = async (question = null) => {
+    const newValues: Array<{
+      id: string;
+      label: string;
+    }> = [];
 
-  // Refresh values when filters are updated (but wait a frame first):
+    cancelTimer();
+
+    console.log("inputChanged", inputChanged);
+    console.log("search", search);
+
+    if (search.length === 0) {
+      setValues([]);
+      return;
+    }
+
+    if (inputChanged.current && search.length > 0) {
+      setInputChanged(false);
+      try {
+        const response = await fetch("http://localhost:5002/ask", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            question: search,
+            language: filters.language,
+          }),
+        });
+        const data = await response.json();
+        const top: Results = data.top;
+        const all: Results = data.all;
+        console.log("top", top);
+        console.log("all", all);
+        setTopResults(top);
+        Object.entries(top).forEach(([key, value]) => {
+          newValues.push({
+            id: value,
+            label: key,
+          });
+        });
+        Object.entries(all).forEach(([key, value]) => {
+          newValues.push({
+            id: value,
+            label: key,
+          });
+        });
+        setValues(newValues);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      }
+    }
+  };
+
+  const searchUnDigitalLibrary = async () => {
+    await refreshValues();
+    var query = "";
+    Object.entries(topResults).forEach(([key, value]) => {
+      query += "subjectheading:[" + key.replace(/ /g, "+") + "]";
+    });
+    window.open("https://digitallibrary.un.org/search?ln=en&p=" + query);
+  };
+
   useEffect(() => {
-    requestAnimationFrame(refreshValues)
-  }, [filters])
+    if (!selected) return;
 
-  useEffect(() => {
-    if (!selected) return
+    sigma.getGraph().setNodeAttribute(selected, "highlighted", true);
 
-    sigma.getGraph().setNodeAttribute(selected, 'highlighted', true)
-    // Get current camera position
-
-    const nodeDisplayData = sigma.getNodeDisplayData(selected)
+    const nodeDisplayData = sigma.getNodeDisplayData(selected);
 
     if (nodeDisplayData) {
       sigma.getCamera().animate(
         { ...nodeDisplayData, ratio: 0.05 },
         {
-          duration: 600
+          duration: 600,
         }
-      )
+      );
     }
 
     return () => {
-      sigma.getGraph().setNodeAttribute(selected, 'highlighted', false)
+      sigma.getGraph().setNodeAttribute(selected, "highlighted", false);
       sigma.getCamera().animate(
         { ...nodeDisplayData, ratio: 0.05 },
         {
-          duration: 600
+          duration: 600,
         }
-      )
+      );
+    };
+  }, [selected]);
+
+  useEffect(() => {
+    setInputChanged(true);
+    startTimer();
+  }, [search]);
+
+  useEffect(() => {
+    if (highlightedIndex >= 0) {
+      const listItems = document.querySelectorAll(".search-results li");
+      const listItem = listItems[highlightedIndex] as HTMLElement;
+      if (listItem) {
+        listItem.scrollIntoView({ block: "nearest" });
+      }
     }
-  }, [selected])
+  }, [highlightedIndex]);
 
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const searchString = e.target.value
-    const valueItem = values.find(value => value.label === searchString)
-    if (valueItem) {
-      setSearch(valueItem.label)
-      setValues([])
-      setSelected(valueItem.id)
-      setHoveredNode(valueItem.id)
-    } else {
-      setSelected(null)
-      setHoveredNode(null)
-      setSearch(searchString)
-    }
-  }
+    console.log("onInputChange");
+    setSearch(e.target.value);
+    setValues([]);
+  };
+
+  const handleSelect = (id: string, label: string) => {
+    setSearch(label);
+    setSelected(id);
+    setHoveredNode(id);
+    setValues([]);
+  };
 
   const onKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && values.length) {
-      setSearch(values[0].label)
-      setSelected(values[0].id)
-      setHoveredNode(values[0].id)
+    if (e.key === "Enter") {
+      if (highlightedIndex >= 0 && highlightedIndex < values.length) {
+        handleSelect(
+          values[highlightedIndex].id,
+          values[highlightedIndex].label
+        );
+      } else {
+        refreshValues();
+      }
+    } else if (e.key === "ArrowDown") {
+      setHighlightedIndex((prevIndex) =>
+        prevIndex < values.length - 1 ? prevIndex + 1 : 0
+      );
+    } else if (e.key === "ArrowUp") {
+      setHighlightedIndex((prevIndex) =>
+        prevIndex > 0 ? prevIndex - 1 : values.length - 1
+      );
     }
-  }
+  };
 
   return (
-    <div className='search-wrapper'>
-      <input
-        type='search'
-        placeholder={searchInstructionIntl[filters.language]}
-        list='nodes'
-        value={search}
-        onChange={onInputChange}
-        onKeyPress={onKeyPress}
-      />
-      <BsSearch className='icon' />
-      <datalist id='nodes'>
-        {values.map((value: { id: string; label: string }) => (
-          <option key={value.id} value={value.label}>
-            {value.label}
-          </option>
-        ))}
-      </datalist>
+    <div>
+      <div className="search-wrapper">
+        <input
+          type="search"
+          placeholder={searchInstructionIntl[filters.language]}
+          value={search}
+          onChange={onInputChange}
+          onKeyDown={onKeyPress}
+        />
+        <BsSearch
+          className="icon"
+          onClick={searchUnDigitalLibrary}
+          title={"Click to search documents in UN digital library"}
+        />
+      </div>
+      {values.length > 0 && (
+        <ul className="search-results">
+          {values.map((value, index) => (
+            <li
+              key={value.id}
+              className={index === highlightedIndex ? "highlighted" : ""}
+              onClick={() => handleSelect(value.id, value.label)}
+            >
+              {value.label}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default SearchField
+export default SearchField;

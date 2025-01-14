@@ -362,7 +362,7 @@ ul > li {
   position: relative;
 }
 .search-wrapper > input[type="search"] {
-  width: calc(100%);
+  width: 30em;
   height: 3em;
   box-shadow: var(--shadow);
   border: none;
@@ -386,6 +386,33 @@ ul > li {
   height: 1em;
   top: 1em;
   left: 1em;
+  cursor: pointer;
+}
+
+.search-results {
+  position: relative;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 20em;
+  overflow-y: auto;
+  z-index: 1000;
+  list-style: none;
+  padding-top: 0.1em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  margin: 0;
+  width: calc(100% - 2em); /* Adjust width to match input field */
+  margin-left: 1em;
+}
+
+.search-results li {
+  cursor: default;
+}
+
+.search-results li.highlighted {
+  background-color: #e8e8e8; /* Highlight color for selected item */
 }
 
 /**
