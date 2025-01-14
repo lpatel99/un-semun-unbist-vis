@@ -40,7 +40,7 @@ const SearchField: FC<{
     cancelTimer();
     typingTimeout.current = setTimeout(() => {
       refreshValues();
-    }, 1000);
+    }, 1500);
   };
 
   const cancelTimer = () => {
@@ -121,7 +121,7 @@ const SearchField: FC<{
     var query = "";
     if (checkedLabels.size === 0) {
       await refreshValues();
-      if (Object.keys(topResults).length === 0) {
+      if (isRefreshing || Object.keys(topResults).length === 0) {
         return;
       }
       Object.entries(topResults).forEach(([key, value]) => {
