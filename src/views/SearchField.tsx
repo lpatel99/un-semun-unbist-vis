@@ -21,7 +21,8 @@ import { searchInstructionIntl } from "../consts";
 const SearchField: FC<{
   setHoveredNode: (node: string | null) => void;
   filters: FiltersState;
-}> = ({ setHoveredNode, filters }) => {
+  searchOperator: "OR" | "AND";
+}> = ({ setHoveredNode, filters, searchOperator: queryOperator }) => {
   const sigma = useSigma();
 
   const [search, setSearch] = useState<string>("");
@@ -126,7 +127,7 @@ const SearchField: FC<{
       }
       Object.entries(topResults).forEach(([key, value]) => {
         if (query !== "") {
-          query += "+OR+";
+          query += "+" + queryOperator + "+";
         }
         query += "subjectheading:[" + key.replace(/ /g, "+") + "]";
       });
@@ -134,7 +135,7 @@ const SearchField: FC<{
     } else {
       checkedLabels.forEach((label) => {
         if (query !== "") {
-          query += "+OR+";
+          query += "+" + queryOperator + "+";
         }
         query += "subjectheading:[" + label.replace(/ /g, "+") + "]";
       });
