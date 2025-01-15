@@ -403,7 +403,7 @@ ul > li {
   padding-left: 0.5em;
   padding-right: 0.5em;
   margin: 0;
-  width: calc(100% - 2em); /* Adjust width to match input field */
+  width: calc(100% - 4em); /* Adjust width to match input field */
   margin-left: 1em;
 }
 

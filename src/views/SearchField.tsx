@@ -11,7 +11,6 @@ import { BsSearch } from "react-icons/bs";
 
 import { FiltersState } from "../types";
 import { searchInstructionIntl } from "../consts";
-import { set } from "lodash";
 
 /**
  * This component is basically a fork from React-sigma-v2's SearchControl
@@ -115,6 +114,7 @@ const SearchField: FC<{
   };
 
   const searchUnDigitalLibrary = async () => {
+    console.log("search", search);
     if (search === "") {
       return;
     }
